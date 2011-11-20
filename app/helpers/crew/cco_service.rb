@@ -18,7 +18,7 @@ class Crew::CcoService
       person_hash = response_object[0]
 
       person = Crew::Person.create(
-          :username => person_hash["username"],
+          :nickname => person_hash["username"],
           :firstname => person_hash["firstname"],
           :lastname => person_hash["lastname"],
           :cco_id => person_hash["uid"],

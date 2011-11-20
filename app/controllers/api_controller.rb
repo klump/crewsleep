@@ -3,7 +3,7 @@ require 'time'
 class ApiController < ApplicationController
 
   def fetch_person
-    render :json => Crew::PersonHelper.fetch_person_by_username(params[:q]).to_json(
+    render :json => Crew::Person.by_nick_or_ccoid(params[:q]).to_json(
     	:except => [ :created_at, :updated_at ],
     	:include => [ :place, :alarms ]
     )
