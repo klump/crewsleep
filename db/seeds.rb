@@ -9,7 +9,7 @@
 
 #This is the setup for DreamHack Winter 2011
 
-main = Sleep::Section.create(:name=>"Main")
+main = Sleep::Section.create(:name=>"Main", :valid_minutes=>[0,30])
 main.gen_row(1, 1..46)
 main.gen_row(2, 1..45)
 main.gen_row(3, 1..45)
@@ -18,7 +18,7 @@ main.gen_row(5, 1..44)
 main.gen_row(6, 1..39)
 
 
-snark = Sleep::Section.create(:name=>'Snarken')
+snark = Sleep::Section.create(:name=>'Snarken', :valid_minutes=>[0,30])
 snark.gen_row(1, 1..11)
 snark.gen_row(2, 1..11)
 snark.gen_row(3, 1..11)
