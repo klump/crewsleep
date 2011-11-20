@@ -75,7 +75,7 @@ var PlaceController = new Class({
 			}
 		} else {
 			if (this.bookedAndQuitCallback != null) {
-				this.bookedAndQuitCallback()
+				this.bookedAndQuitCallback(this.selectedSection.name+" "+this.selectedRow().index+"-"+this.selectedPlace().index)
 			}
 		}
 	},

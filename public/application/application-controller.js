@@ -1,10 +1,12 @@
 var ApplicationController = new Class({
-	initialize: function(lampController, pictureFrameController, personController, placeController, alarmController) {
+	initialize: function(lampController, pictureFrameController, personController, placeController, alarmController, confirmPlaceController, confirmAlarmController) {
 		this.lampController = lampController
 		this.pictureFrameController = pictureFrameController
 		this.personController = personController
 		this.placeController = placeController
 		this.alarmController = alarmController
+		this.confirmPlaceController = confirmPlaceController
+		this.confirmAlarmController = confirmAlarmController
 		
 		this.currentPerson = null
 		
@@ -15,6 +17,7 @@ var ApplicationController = new Class({
 		
 		this.alarmController.changePlaceCallback = this.alarmWentChangePlace.bind(this)
 		this.alarmController.cancelCallback = this.alarmExit.bind(this)
+		this.alarmController.alarmSetCallback = this.alarmSet.bind(this)
 		
 		this.initialState()
 	},
@@ -26,9 +29,13 @@ var ApplicationController = new Class({
 		this.lampController.on()
 	},
 	
-	placeBookedAndQuit: function() {
+	placeBookedAndQuit: function(placeName) {
 		this.placeController.hide()
-		this.initialState()
+		this.confirmPlaceController.updateAndShow(placeName)
+		setTimeout(function() {
+			this.confirmPlaceController.hide()
+			this.initialState()
+		}.bind(this), 5000)
 	},
 	
 	placeBookedAndContinue: function() {
@@ -56,5 +63,15 @@ var ApplicationController = new Class({
 	alarmExit: function() {
 		this.alarmController.hide()
 		this.initialState()
+	},
+
+	alarmSet: function(placeName, timeString) {
+		this.alarmController.hide()
+		this.lampController.off()
+		this.confirmAlarmController.updateAndShow(placeName, timeString)
+		setTimeout(function() {
+			this.confirmAlarmController.hide()
+			this.initialState()
+		}.bind(this), 5000)
 	}
 })

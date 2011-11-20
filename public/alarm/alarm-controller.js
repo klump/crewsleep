@@ -34,6 +34,11 @@ var AlarmController = new Class({
 			onSuccess: this.handleSetAlarmResponse.bind(this),
 			onFailure: this.handleSetAlarmFailure.bind(this)
 		})
+		this.deleteAlarmRequest = new Request({
+			url: "/api/v1/delete_alarm",
+			onSuccess: this.handleDeleteAlarmResponse.bind(this),
+			onFailure: this.handleDeleteAlarmFailure.bind(this)
+		})
 	},
 	
 	// Control logic
@@ -46,7 +51,20 @@ var AlarmController = new Class({
 	},
 	
 	setAlarm: function(event) {
-		this.setAlarmRequest.post("person="+this.person._id+"&time="+this.alarmTime)
+		var dateString = this.alarmTime.getFullYear()+"-"+
+		                 this.twoDigitString((this.alarmTime.getMonth()+1))+"-"+
+		                 this.twoDigitString(this.alarmTime.getDate())+"T"+
+		                 this.twoDigitString(this.alarmTime.getHours())+":"+
+		                 this.twoDigitString(this.alarmTime.getMinutes())
+		if (this.alarmTime.getTimezoneOffset() <= 0) {
+			dateString += "+"
+		}
+		dateString += this.twoDigitString(Math.floor(-this.alarmTime.getTimezoneOffset()/60))+":"+
+		              this.twoDigitString(-this.alarmTime.getTimezoneOffset() % 60)
+		this.setAlarmRequest.post({
+			person: this.person._id,
+			time: encodeURIComponent(dateString)
+		})
 	},
 	
 	changePlace: function(event) {
@@ -76,15 +94,21 @@ var AlarmController = new Class({
 		this.alarmTime = date
 		this.alarmRemaining.set("html", this.timeRemainingString(this.alarmTime))
 	},
-	
+
 	handleSetAlarmResponse: function(response) {
+		if (this.alarmSetCallback != null) {
+			this.alarmSetCallback(this.placeInfo.name, this.twoDigitString(this.alarmTime.getHours())+":"+this.twoDigitString(this.alarmTime.getMinutes()))
+		}
 		
 	},
 	
 	handleSetAlarmFailure: function() {
-		if (this.alarmSetCallback != null) {
-			this.alarmSetCallback()
-		}
+	},
+
+	handleDeleteAlarmResponse: function(response) {
+	},
+
+	handleDeleteAlarmFailure: function() {
 	},
 	
 	handlePlaceInfoResponse: function(response) {
@@ -143,6 +167,10 @@ var AlarmController = new Class({
 			}
 			option.inject(hourSelect)
 			hour++
+			if (hour >= 24) {
+				recommendedHour -= hour
+				hour = 0
+			}
 		}
 		
 		var minuteSelect = this.alarmForm["minute"]
@@ -150,10 +178,10 @@ var AlarmController = new Class({
 		this.placeInfo.valid_minutes.each(function(minute) {
 			var option = new Element("option", {
 				value: minute,
-				html: minute
+				html: this.twoDigitString(minute)
 			})
 			option.inject(minuteSelect)
-		})
+		}, this)
 		
 		this.updateTime()
 	},
@@ -161,13 +189,14 @@ var AlarmController = new Class({
 	renderExistingAlarms: function() {
 		this.alarmExisting.empty()
 		this.person.alarms.each(function(alarm) {
+			if (alarm.status != "active") return
 			var time = parseISO8601(alarm.time)
 			
 			var alarmParagraph = new Element("p")
-			
+
 			var timeSpan = new Element("span", {
 				"class": "time",
-				html: time.getHours()+":"+time.getMinutes()
+				html: time.getHours()+":"+this.twoDigitString(time.getMinutes())
 			})
 			timeSpan.inject(alarmParagraph)
 			
@@ -183,34 +212,45 @@ var AlarmController = new Class({
 				html: "Ta bort"
 			})
 			removeLink.inject(alarmParagraph)
+			removeLink.addEvent("click", function(event) {
+				event.preventDefault()
+				this.deleteAlarmRequest.post({ alarm: alarm._id })
+				removeLink.getParent().destroy()
+			}.bind(this))
 			
 			alarmParagraph.inject(this.alarmExisting)
 		}, this)
 		this.alarmExisting.removeClass("hidden")
+	},
+
+	twoDigitString: function(digit) {
+		var digitString = digit.toString()
+		if (digitString.length == 1) {
+			digitString = "0"+digitString
+		}
+		return digitString
 	}
 })
 
 function parseISO8601(str) {
- // we assume str is a UTC date ending in 'Z'
+	// we assume str is a UTC date ending in 'Z'
 
- var parts = str.split('T'),
- dateParts = parts[0].split('-'),
- timeParts = parts[1].split('+'),
- timeSubParts = timeParts[0].split(':'),
- timeSecParts = timeSubParts[2].split('.'),
- timezoneParts = timeSubParts[1].split(":"),
- timezone = timezoneParts[0],
- timeHours = Number(timeSubParts[0]),
- _date = new Date;
+	var parts = str.split('T'),
+	dateParts = parts[0].split('-'),
+	timeParts = parts[1].split('+'),
+	timeSubParts = timeParts[0].split(':'),
+	timeSecParts = timeSubParts[2].split('.'),
+	timeHours = Number(timeSubParts[0]),
+	_date = new Date;
 
- _date.setUTCFullYear(Number(dateParts[0]));
- _date.setUTCMonth(Number(dateParts[1])-1);
- _date.setUTCDate(Number(dateParts[2]));
- _date.setUTCHours(Number(timeHours));
- _date.setUTCMinutes(Number(timeSubParts[1]));
- _date.setUTCSeconds(Number(timeSecParts[0]));
- if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
+	_date.setFullYear(Number(dateParts[0]));
+	_date.setMonth(Number(dateParts[1])-1);
+	_date.setDate(Number(dateParts[2]));
+	_date.setHours(Number(timeHours));
+	_date.setMinutes(Number(timeSubParts[1]));
+	_date.setSeconds(Number(timeSecParts[0]));
+	if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
 
- // by using setUTC methods the date has already been converted to local time(?)
- return new Date(_date.getTime()-(timezone*60*60*100));
+	// by using setUTC methods the date has already been converted to local time(?)
+	return _date;
 }

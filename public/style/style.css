@@ -110,10 +110,17 @@ body {
 }
 
 h2 {
-	font-size: 1.2em;
+	font-size: 30px;
+	margin: 50px 0 0;
 }
 
-h2, p {
+h3 {
+	font-size: 20px;
+	color: rgb(100, 100, 100);
+	margin-bottom: 0;
+}
+
+h2, h3, p {
 	text-shadow: 0 0 2px rgba(255, 255, 255, 1);
 }
 
@@ -135,7 +142,7 @@ h2, p {
 	text-align: right;
 }
 
-#alarm-existing {
+#alarm-existing:not(:empty) {
 	border: 1px solid rgb(200, 200, 200);
 	border-width: 1px 0;
 }
@@ -171,6 +178,28 @@ h2, p {
 	}
 	#alarm-form .button-row .continue-buttons {
 		float: right;
+	}
+
+#alarm-list ul {
+	padding: 0;
+	margin-top: 0;
+	list-style: none;
+}
+	#alarm-list .place {
+		font-weight: bold;
+	}
+	#alarm-list .actions {
+		float: right;
+	}
+
+.message {
+	width: 450px;
+	margin: 0 auto;
+	color: rgb(255, 255, 255);
+	text-align: center;
+}
+	.message p {
+	text-shadow: 0 0 2px rgb(0, 0, 0);
 	}
 
 input[type=radio] {

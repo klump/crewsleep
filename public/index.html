@@ -83,12 +83,23 @@
 			        		<input type="button" id="alarm-change-place" value="Byt plats" />
 			        		<span class="continue-buttons">
 			        			<input type="button" id="alarm-cancel" value="Avbryt">
-					        	<input id="alarm-set" type="submit" value="Beställ" class="hidden" />
+					        	<input id="alarm-set" type="submit" value="Beställ" />
 				        	</span>
 				        </p>
 		        	</form>
 		        </div>
 	        </div>
+			<div id="confirm-place-step" class="hidden">
+				<div class="message">
+					<p>Du är nu bokad på plats <span id="confirm-place-place"></span>!</p>
+				</div>
+			</div>
+			<div id="confirm-alarm-step" class="hidden">
+				<div class="message">
+					<p>Vi kommer och väcker dig <span id="confirm-alarm-time"></span> på din plats <span id="confirm-alarm-place"></span>.</p>
+					<p class="big">Sov gott! :)</p>
+				</div>
+			</div>
 	    </div>
     	<div id="night-table"></div>
     	<div id="table-stuff">
@@ -107,14 +118,18 @@
         <script type="text/javascript" src="person/person-controller.js"></script>
         <script type="text/javascript" src="place/place-controller.js"></script>
         <script type="text/javascript" src="alarm/alarm-controller.js"></script>
+        <script type="text/javascript" src="message/confirm-alarm-controller.js"></script>
+        <script type="text/javascript" src="message/confirm-place-controller.js"></script>
         <script type="text/javascript">
 	        var lampController = new LampController($("lamp"), $("light"))
             var pictureFrameController = new PictureFrameController($("picture-frame"), $("picture-frame-image"))
             var personController = new PersonController($("person-step"), $("person-form"))
             var placeController = new PlaceController($("place-step"), $("place-nickname"), $("place-form"), $("place-sections"), $("place-rows"), $("place-places"), $("place-buttons"), $("place-book-and-quit"), $("place-book-and-continue"))
             var alarmController = new AlarmController($("alarm-step"), $("alarm-place"), $("alarm-form"), $("alarm-existing"), $("alarm-remaining"), $("alarm-change-place"), $("alarm-cancel"), $("alarm-set"))
-            
-            var applicationController = new ApplicationController(lampController, pictureFrameController, personController, placeController, alarmController)
+            var confirmPlaceController = new ConfirmPlaceController($("confirm-place-step"), $("confirm-place-place"))
+			var confirmAlarmController = new ConfirmAlarmController($("confirm-alarm-step"), $("confirm-alarm-place"), $("confirm-alarm-time"))
+
+            var applicationController = new ApplicationController(lampController, pictureFrameController, personController, placeController, alarmController, confirmPlaceController, confirmAlarmController)
         </script>
     </body>
 </html>

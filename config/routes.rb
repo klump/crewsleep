@@ -12,9 +12,13 @@ Crewservices::Application.routes.draw do
   post "api/v1/save_places" => "api#save_places"
   
   get 'api/v1/fetch_person' => 'api#fetch_person'
+
+  get "api/v1/fetch_active_alarms" => "api#fetch_active_alarms"
   
   post "api/v1/set_alarm" => "api#set_alarm"
   post "api/v1/delete_alarm" => "api#delete_alarm"
+  post "api/v1/finish_alarm" => "api#finish_alarm"
+  post "api/v1/poke" => "api#poke"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
