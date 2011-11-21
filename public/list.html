@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>list</title>
+    <style>
+      body{
+        font-family: Verdana;
+        font-size: 12pt;
+      }
+      .item{
+        border: 1px solid black;
+        font-size: 1.5em;
+      }
+      .poke{
+        float:right;
+      }
+      h1,h2{
+        padding: 0;
+        margin: 0;
+      }
+      .item button{
+        height: 100%;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      var List;
+      
+      function poke (alarm) {
+        $.ajax({
+          url: "",
+          type: 'post',
+          data: {alarm:alarm},
+          success: function() {
+            console.log("success")
+          },
+          error: function() {
+            alert("fail")
+          }
+        })
+      }
+      
+      function poll() {
+        $.ajax({
+          url: "/api/v2/fetch_active_alarms",
+          success: function(data) {
+            $.each(data, function() {
+              var time = this.time
+              var list = List.add_list(time)
+              $.each(this.sections, function() {
+                var name = this.name
+                var section = List.add_section(list, name)
+                $.each(this.items, function() {
+                  var item = List.add_item(section, this.name, this.place, this.pokes)
+                })
+              })
+            });
+          },
+          error: function() {
+            alert("error")
+          }
+        })
+      }
+
+      $(function() {
+        
+        List = {
+          lists: $(".lists"),
+          t_item: $(".list .section .item").remove().clone(),
+          t_section: $(".list .section").remove().clone(),
+          t_list: $(".list").remove().clone(),
+
+          add_list: function(text) {
+            var list = this.t_list.clone();
+            list.find("h1").html(text)
+            this.lists.append(list);
+            return list;
+          },
+          add_section: function(list, text) {
+            var section = this.t_section.clone();
+            section.find("h2").html(text)
+            list.append(section)
+            return section;
+          },
+          add_item: function(section, name, place, pokes) {
+            var item = this.t_item.clone();
+            item.find(".name").html(name)
+            item.find(".pokes").html(pokes)
+            item.find(".place").html(place)
+            section.append(item)
+            return item
+          },
+          clear: function() {
+            this.lists.find(".list").remove()
+          }
+        };
+        
+        
+        $(".poke").click(function() {
+          var alarm = $(this).data("alarm");
+          poke(alarm);
+        })
+        
+        poll();
+      })
+      
+
+    </script>
+  </head>
+  
+  <div class="lists">
+    <div class="list">
+      <h1>21:00</h1>
+      <div class="section">
+        <h2>Main</h2>
+        <div class="item">
+          <span class="place">1-1</span>
+          <span class="name">Jörgen</span>
+          <span class="pokes">0</span> pokes
+          <button class="poke" data-alarm="123">Poke</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>
+

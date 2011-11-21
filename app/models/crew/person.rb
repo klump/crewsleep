@@ -10,4 +10,8 @@ class Crew::Person
 
   has_many :alarms, :class_name => "Sleep::Alarm"
   belongs_to :place, :class_name => "Sleep::Place"
+  
+  after_update do
+    alarms.each &:save
+  end
 end
