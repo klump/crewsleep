@@ -38,7 +38,7 @@ class ApiController < ApplicationController
 	alarm.poked = alarm.poked.to_i+1
 	alarm.save
 
-	render :nothing => true
+  render :text => alarm.poked.to_i
   end
 
   def delete_alarm

@@ -20,7 +20,7 @@ class Sleep::Alarm
   end
   
   def self.active_grouped_by_time_and_section
-    alarms = self.where(:status => :active).order_by([:section_name, :asc])
+    alarms = self.where(:status => :active, :time.lt => (Time.now + 2.hours)).order_by([[:time, :asc],[:section_name, :asc]])
     
     times = {}
     
@@ -29,7 +29,8 @@ class Sleep::Alarm
       (times[alarm.time][alarm.section_name] ||= []) << {
         :name => alarm.person_name,
         :place => alarm.place_string,
-        :pokes => alarm.poked
+        :pokes => alarm.poked,
+        :id => alarm.id
       }
     end
     

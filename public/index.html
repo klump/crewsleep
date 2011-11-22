@@ -4,6 +4,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Väckningssystemet</title>
         <link rel="stylesheet" href="style/style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+          // $(function() {
+          //   $("#person-step button.cancel").unbind("click").click(function() {
+          //     
+          //   })
+          // })
+          $.noConflict();
+          function focus_login() {
+            if(!jQuery("#person-step").hasClass("hidden"))
+              jQuery("#person-step [name=q]").focus()
+          }
+          setInterval("focus_login()", 500)
+        </script>
         <script type="text/javascript" src="http://use.typekit.com/uik3cti.js"></script>
         <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     </head>
@@ -20,6 +34,7 @@
 	        </div>
 	        <div id="place-step" class="box normal hidden">
 	        	<div class="inner">
+	        	  <span class="actions" style="float:right"><button id="place-cancel">Avbryt</button></span>
 	        		<p>Var vänlig välj var du bor, kära <span id="place-nickname"></span>.</p>
 	        		<form id="place-form" action="/api/v1/book_place">
 	        			<div id="place-sections" class="hidden">
@@ -124,7 +139,7 @@
 	        var lampController = new LampController($("lamp"), $("light"))
             var pictureFrameController = new PictureFrameController($("picture-frame"), $("picture-frame-image"))
             var personController = new PersonController($("person-step"), $("person-form"))
-            var placeController = new PlaceController($("place-step"), $("place-nickname"), $("place-form"), $("place-sections"), $("place-rows"), $("place-places"), $("place-buttons"), $("place-book-and-quit"), $("place-book-and-continue"))
+            var placeController = new PlaceController($("place-step"), $("place-nickname"), $("place-form"), $("place-sections"), $("place-rows"), $("place-places"), $("place-buttons"), $("place-book-and-quit"), $("place-book-and-continue"), $("place-cancel"))
             var alarmController = new AlarmController($("alarm-step"), $("alarm-place"), $("alarm-form"), $("alarm-existing"), $("alarm-remaining"), $("alarm-change-place"), $("alarm-cancel"), $("alarm-set"))
             var confirmPlaceController = new ConfirmPlaceController($("confirm-place-step"), $("confirm-place-place"))
 			var confirmAlarmController = new ConfirmAlarmController($("confirm-alarm-step"), $("confirm-alarm-place"), $("confirm-alarm-time"))

@@ -14,6 +14,7 @@ var ApplicationController = new Class({
 		
 		this.placeController.bookedAndQuitCallback = this.placeBookedAndQuit.bind(this)
 		this.placeController.bookedAndContinueCallback = this.placeBookedAndContinue.bind(this)
+		this.placeController.cancelCallback = this.placeCancel.bind(this)
 		
 		this.alarmController.changePlaceCallback = this.alarmWentChangePlace.bind(this)
 		this.alarmController.cancelCallback = this.alarmExit.bind(this)
@@ -41,6 +42,11 @@ var ApplicationController = new Class({
 	placeBookedAndContinue: function() {
 		this.placeController.hide()
 		this.alarmController.updateAndShow(this.currentPerson)
+	},
+	
+	placeCancel: function() {
+	  this.placeController.hide()
+		this.initialState()
 	},
 	
 	personSelected: function(person) {

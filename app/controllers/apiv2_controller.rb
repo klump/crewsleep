@@ -6,4 +6,14 @@ class Apiv2Controller < ApiController
     response = Sleep::Alarm.active_grouped_by_time_and_section
     render :json => response
   end
+  
+  def info
+    if params[:text]
+      i = Info.last || Info.new
+      i.text = params[:text]
+      i.save!
+    end
+    
+    render :text=>Info.last.text
+  end
 end

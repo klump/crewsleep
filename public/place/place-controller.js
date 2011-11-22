@@ -1,5 +1,5 @@
 var PlaceController = new Class({
-	initialize: function(placeStep, placeNickname, placeForm, placeSections, placeRows, placePlaces, placeButtons, bookAndQuitButton, bookAndContinueButton) {
+	initialize: function(placeStep, placeNickname, placeForm, placeSections, placeRows, placePlaces, placeButtons, bookAndQuitButton, bookAndContinueButton, cancelButton) {
 		this.placeStep = placeStep
 		this.placeNickname = placeNickname
 		this.placeForm = placeForm
@@ -9,16 +9,19 @@ var PlaceController = new Class({
 		this.placeButtons = placeButtons
 		this.bookAndQuitButton = bookAndQuitButton
 		this.bookAndContinueButton = bookAndContinueButton
+		this.cancelButton = cancelButton
 		
 		this.person = null
 		this.places = null
 		this.bookedAndQuitCallback = null
 		this.bookedAndContinueCallback = null
+		this.cancelCallback = null
 		this.shouldContinue = null
 		
 		this.bookAndQuitButton.addEvent("click", this.bookAndQuit.bind(this))
 		this.bookAndContinueButton.addEvent("click", this.bookAndContinue.bind(this))
 		this.placeForm.addEvent("submit", function(event) { event.preventDefault() })
+		this.cancelButton.addEvent("click", this.cancel.bind(this))
 		
 		this.placesRequest = new Request.JSON({
 			url: "/api/v1/fetch_places",
@@ -36,6 +39,12 @@ var PlaceController = new Class({
 	
 	
 	// Control logic
+	
+	cancel: function(event) {
+	  event.preventDefault()
+	  this.shouldContinue = false
+	  this.cancelCallback()
+	},
 	
 	bookAndQuit: function(event) {
 		event.preventDefault()

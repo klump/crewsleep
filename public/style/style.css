@@ -13,6 +13,9 @@ body {
 .hidden {
     display: none;
 }
+.loading{
+  background:url("graphics/spinner.gif");
+}
 
 #night-table {
 	background: url("graphics/night-table.png") center bottom no-repeat, url("graphics/bottom-shadow.png") center bottom repeat-x;

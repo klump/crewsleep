@@ -1,0 +1,1 @@
+rsync -rz -e 'ssh -p 2022' . voxar@sleep.event.dreamhack.se:/var/ssv/app/
