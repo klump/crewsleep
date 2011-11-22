@@ -229,7 +229,7 @@ var PlaceController = new Class({
 			spanLabel.inject(placeLabel)
 			
 			if (index != 0 && index % 10 == 0) {
-				new Element("br").inject(placeChoices)
+				//new Element("br").inject(placeChoices)
 			} else {
 				placeLabel.appendText(" ")
 			}
