@@ -34,11 +34,13 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
+      if(!console) var console = {log: function() { }}
       var List;
       var retryList = [];
       
+      var MAX_POKES = 2;
+      
       $.fn.flash = function(func) {
-        console.log("yo");
         var b = $(this)
         b.animate({opacity:0.01}, "fast", function(){if(func)func();b.animate({opacity:1}, "fast")});
       }
@@ -55,22 +57,49 @@
         setTimeout("runRetry()", 3000)
       }
       
+      function remove_alarm (id) {
+        alarm = $("[data-alarm='" + id + "']")
+        var removeSection = alarm.closest(".section").find(".item:not(.removed)").length == 1
+        var removeList = alarm.closest(".list").find(".item:not(.removed)").length == 1
+        if(removeList) alarm.closest(".list").slideUp("fast", function() {$(this).remove()});
+        else if(removeSection) alarm.closest(".section").slideUp("fast", function() {$(this).remove()});
+        else alarm.closest(".item").addClass("removed").slideUp("fast", function() {$(this).remove()});
+      }
+      
       function poke (alarm) {
         var id = alarm.data("alarm")
         alarm.addClass("loading")
-        $.ajax({
-          url: "/api/v1/poke",
-          type: 'post',
-          data: {alarm:id},
-          success: function(data) {
-            alarm.find(".pokes").html(data)
-            alarm.removeClass("loading")
-          },
-          error: function() {
-            console.log("fail")
-            retry(function() {poke(alarm)})
-          }
-        })
+        var remove = alarm.find(".pokes").html() == "X"
+        if(remove){
+          $.ajax({
+            url: "/api/v1/delete_alarm",
+            type: 'post',
+            data: {alarm:id},
+            success: function(data) {
+              alarm.removeClass("loading")
+              remove_alarm(id)
+            },
+            error: function() {
+              console.log("error removing alarm", id)
+              retry(function() {poke(alarm)})
+            }
+          })
+        } else {
+          $.ajax({
+            url: "/api/v1/poke",
+            type: 'post',
+            data: {alarm:id},
+            success: function(data) {
+              if(data >= MAX_POKES) data = "X"
+              alarm.find(".pokes").html(data)
+              alarm.removeClass("loading")
+            },
+            error: function() {
+              console.log("error poking alarm", id)
+              retry(function() {poke(alarm)})
+            }
+          })
+        }
       }
       
       function find_alarm (id) {
@@ -93,7 +122,7 @@
                 $.each(this.items, function() {
                   all_items[this.id] = true
                   var item = List.find_item(section, this.id)
-                  if(item) List.update_item(item, this.place, this.pokes)
+                  if(item) List.update_item(item, this.name, this.place, this.pokes)
                   if(!item) item = List.add_item(section, this.name, this.place, this.pokes, this.id)
                   item.find(".poke").unbind("click").click(function() {
                     poke($(this));
@@ -105,12 +134,12 @@
             $("[data-alarm]").each(function() {
               var id = $(this).attr("data-alarm")
               if(!all_items[id]){
-                $(this).closest(".item").slideUp("fast")
+                remove_alarm(id)
               }
             })
           },
           error: function() {
-            alert("error")
+            console.log("error performing poll")
           }
         })
       }
@@ -138,13 +167,16 @@
           add_item: function(section, name, place, pokes, id) {
             var item = this.t_item.clone();
             item.find(".name").html(name)
+            if(pokes >= MAX_POKES) pokes = "X"
             item.find(".pokes").html(pokes)
             item.find(".place").html(place)
             item.find(".poke").attr("data-alarm", id)
             section.append(item)
             return item
           },
-          update_item: function(item, place, pokes) {
+          update_item: function(item, name, place, pokes) {
+            if(pokes >= MAX_POKES) pokes = "X"
+            item.find(".name").html(name)
             item.find(".pokes").html(pokes)
             item.find(".place").html(place)
           },
@@ -182,13 +214,12 @@
           
         })
         
-        //$("#reload").click(function() {document.location.reload()})
-        $("#reload").click(poll)
+        $("#reload").click(function() {document.location.reload()})
+        //$("#reload").click(poll)
         
         poll(true);
+        setInterval("poll(false)", 3000)
       })
-      
-
     </script>
   </head>
   <button id="reload">reload</button>

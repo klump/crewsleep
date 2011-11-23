@@ -20,10 +20,35 @@ class Sleep::Alarm
   end
   
   def self.active_grouped_by_time_and_section
-    alarms = self.where(:status => :active, :time.lt => (Time.now + 2.hours)).order_by([[:time, :asc],[:section_name, :asc]])
+    alarms = self.where(:status => :active, :time.lt => (Time.now + 2.hours)).order_by([[:time, :asc],[:section_name, :asc]]).to_a
+    if alarms.length == 0
+      alarms = self.where(:status => :active, :time.lt => (Time.now + 10.hours)).order_by([[:time, :asc],[:section_name, :asc]]).limit(1).to_a
+      return [] unless alarms.first
+      hh, mm, _ = Date.day_fraction_to_time(Sleep::Alarm.first.time-DateTime.now)
+      return  [{
+                :time => alarms.first.time.strftime("%A %H:%M"),
+                :sections=>[
+                    :name=>"Nästa väckning",
+                    :items=>[{:name=>"om #{hh} timmar #{mm} minuter", :place=>"#{hh}:#{mm}", :pokes=>-1, :id=>0}]
+                  ]
+              }]
+    end
+    
+    alarms.sort! do |a,b|
+      arow, aplace = a.place_string.split("-").map(&:to_i)
+      brow, bplace = b.place_string.split("-").map(&:to_i)
+      
+      #if its the same row, or rows that share a path
+      #but not if they share 7 and 8 (dhw11 "snarken" layout)
+      order = (arow <=> brow) 
+      order = 0 if ((arow-brow).abs == 1 && [arow,brow].min%2 != 0) && !(arow+brow == 7+8) if order != 0
+      order = (aplace <=> bplace) if order == 0
+      order
+    end
     
     times = {}
     
+    #collect relevant data and group them by time and section
     alarms.each do |alarm|
       times[alarm.time] ||= {alarm.section_name => []}
       (times[alarm.time][alarm.section_name] ||= []) << {
@@ -42,6 +67,7 @@ class Sleep::Alarm
         }
       end
       { 
+        :unixtime => time,
         :time => time.strftime("%A %H:%M"),
         :sections => sections
       }
@@ -54,9 +80,9 @@ class Sleep::Alarm
     #       :items=>[]
     #     ]
     # }]
-    
-    times.to_a.sort do |a,b|
-      a[:time] <=> b[:time]
+    #order by time
+    times.sort do |a,b|
+      a[:unixtime] <=> b[:unixtime]
     end
   end
 end
