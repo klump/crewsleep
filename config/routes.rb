@@ -23,6 +23,7 @@ Crewservices::Application.routes.draw do
   get 'api/v2/fetch_active_alarms' => "apiv2#fetch_active_alarms"
   get 'api/v2/info' => "apiv2#info"
   post 'api/v2/info' => "apiv2#info"
+  get 'api/v2/fetch_alarms_poked' => "apiv2#fetch_alarms_poked"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

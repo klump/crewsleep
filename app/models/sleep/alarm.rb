@@ -19,6 +19,12 @@ class Sleep::Alarm
     obj.place_string = obj.person.place.to_s
   end
   
+  scope :active, where(:status => :active)
+  
+  def self.active_poked
+    self.where(:status => :active, :poked.gt => 0)
+  end
+  
   def self.active_grouped_by_time_and_section
     alarms = self.where(:status => :active, :time.lt => (Time.now + 2.hours)).order_by([[:time, :asc],[:section_name, :asc]]).to_a
     if alarms.length == 0

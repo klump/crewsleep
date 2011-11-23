@@ -5,23 +5,89 @@
     <link rel="stylesheet" href="/style/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
+      var t_item;
+      function remove_alarm (id, done) {
+         $.ajax({
+            url: "/api/v1/delete_alarm",
+            type: 'post',
+            data: {alarm:id},
+            success: function(data) {
+              done()
+            },
+            error: function() {
+              console.log("error removing alarm", id)
+            }
+          })
+      }
+      
+      function find_item (id) {
+        var i = $("[data-alarm='" + id + "']").closest(".item")
+        if(i.length == 0) return undefined
+        return i;
+      }
+            
       function update () {
         $.get("/api/v2/info", function(data) {
-          $(".inner").html(data)
+          $(".info").html(data)
         })
-        setTimeout("update()", 10000);
+        $.get("/api/v2/fetch_alarms_poked", function(data) {
+//          $(".poked.item").remove()
+          var all_items = {}
+          $.each(data, function() {
+            var item = find_item(this._id)
+            var foundItem = item != undefined;
+            if(!item) item = t_item.clone()
+            
+            all_items[this._id] = true;
+            
+            item.find(".name").html(this.person_name)
+            item.find("button").attr("data-alarm", this._id).unbind("click").click(function() {
+              var id = $(this).attr("data-alarm")
+              $(this).addClass("loading")
+              remove_alarm(id, function() {item.removeClass("loading"); item.slideUp("fast", function() {item.remove()})})
+            })
+            if(!foundItem) $(".inner.poked").append(item)
+          })
+          $("[data-alarm]").each(function() {
+            var id = $(this).attr("data-alarm")
+            if(!all_items[id]){
+              $(this).closest(".item").slideUp("fast", function() {$(this).remove()})
+            }
+          })
+        })
+        setTimeout("update()", 3000);
       }
       $(function() {
+        t_item = $(".poked.item").remove().clone()
         update();
       })
     </script>
+    <style type="text/css" media="screen">
+      .box.normal{
+        width: 800px;
+        float:left;
+        margin-left: 50px;
+      }
+      .box.narrow.awake{
+        float:right;
+        margin-right: 50px;
+      }
+    </style>
   </head>
   <body>
     <div id="content">
       <br><br><br>
       <div class="box normal">
-        <div class="inner">
+        <div class="inner info">
           <p>Laddar information...</p>
+        </div>
+      </div>
+      <div class="box narrow awake">
+        <div class="inner poked">
+          Avaktivera hemskt gärna ditt larm när du är vaken!
+          <div class="poked item">
+            <span class="name">Foxy</span> <span class="actions" style="float:right;"><button><div class="spinner">&nbsp;</div>Vaken!</button></span>
+          </div>
         </div>
       </div>
     </div>

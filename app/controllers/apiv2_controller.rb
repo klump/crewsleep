@@ -16,4 +16,8 @@ class Apiv2Controller < ApiController
     
     render :text=>Info.last.text
   end
+  
+  def fetch_alarms_poked
+    render :json=>Sleep::Alarm.active_poked
+  end
 end
