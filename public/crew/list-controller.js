@@ -64,7 +64,9 @@ var ListController = new Class({
 		  t.setTime(Date.parse(time["time"]))
 		  var d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Tusday", "Friday", "Saturday"][t.getDay()]
 		  var h = t.getHours()
+		  if(h < 10) h = "0"+h
 		  var m = t.getMinutes()
+		  if(m < 10) m = "0" + m
 			var timeHeader = new Element("h2", {
 				html: d + " " + h + ":" + m
 			})
