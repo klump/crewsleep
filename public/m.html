@@ -50,6 +50,16 @@
       #alarm-list{
 
       }
+      .spinner {
+        position: absolute;
+        width: 30px;
+        background:none;
+        display: none;
+      }
+      .loading .spinner{
+        display: block;
+        background: url("style/graphics/spinner.gif") center no-repeat;
+      }
       button, input[type=button], input[type=submit] {
       	height: 38px;
       	border: solid transparent;
@@ -66,8 +76,9 @@
       }
       
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
+      window.console = {log: function(a,b,c,d,e) { alert(a + b + c)}}
 
       var List;
       var retryList = [];
@@ -92,7 +103,7 @@
       }
       
       function remove_alarm (id) {
-        alarm = $("[data-alarm='" + id + "']")
+        alarm = $("input[id='" + id + "']")
         var removeSection = alarm.closest(".section").find(".item:not(.removed)").length == 1
         var removeList = alarm.closest(".list").find(".item:not(.removed)").length == 1
         if(removeList) alarm.closest(".list").slideUp("fast", function() {$(this).remove()});
@@ -101,7 +112,7 @@
       }
       
       function poke (alarm) {
-        var id = alarm.data("alarm")
+        var id = alarm.closest(".item").find("input[type=hidden]").attr("id")
         alarm.addClass("loading")
         var remove = alarm.find(".pokes").html() == "X"
         if(remove){
@@ -114,6 +125,7 @@
               remove_alarm(id)
             },
             error: function() {
+              console.log("error removing alarm", id)
               retry(function() {poke(alarm)})
             }
           })
@@ -128,6 +140,7 @@
               alarm.removeClass("loading")
             },
             error: function() {
+              console.log("error poking alarm", id)
               retry(function() {poke(alarm)})
             }
           })
@@ -135,7 +148,7 @@
       }
       
       function find_alarm (id) {
-        return $("[data-alarm='" + id + "']").closest()
+        return $("input[id='" + id + "']").closest()
       }
       
       function poll () {
@@ -163,14 +176,15 @@
               })
             });
             //remove old items
-            $("[data-alarm]").each(function() {
-              var id = $(this).attr("data-alarm")
+            $("input[type=hidden]").each(function() {
+              var id = $(this).attr("id")
               if(!all_items[id]){
                 remove_alarm(id)
               }
             })
           },
           error: function() {
+            console.log("error performing poll")
           }
         })
       }
@@ -179,7 +193,7 @@
         
         List = {
           lists: $(".lists"),
-          t_item: $(".list .section .item").remove().clone(),
+          t_item: $(".item").remove().clone(),
           t_section: $(".list .section").remove().clone(),
           t_list: $(".list").remove().clone(),
 
@@ -201,7 +215,7 @@
             if(pokes >= MAX_POKES) pokes = "X"
             item.find(".pokes").html(pokes)
             item.find(".place").html(place)
-            item.find(".poke").attr("data-alarm", id)
+            item.find("input[type=hidden]").attr("id", id)
             section.append(item)
             return item
           },
@@ -222,6 +236,7 @@
             return r;
           },
           find_section: function(list, text) {
+            if(!list) console.error("No list")
             var r = undefined;
             list.find(".section h3").each(function() {
               if($(this).text() == text) { r = $(this).closest(".section"); return; }
@@ -229,17 +244,12 @@
             return r;
           },
           find_item: function(section, alarm_id) {
-            var r = section.find("[data-alarm='" + alarm_id + "']").closest(".item")
+            if(!section) console.error("No list")
+            var r = section.find("input[id='" + alarm_id + "']").closest(".item")
             if(r.length == 0) return undefined;
             return r;
           }
         };
-        
-        
-        $(".poke").unbind("click").click(function() {
-          var alarm = $(this).attr("data-alarm");
-          poke(alarm);
-        })
         
         $("#reload").click(function() {document.location.reload()})
         //$("#reload").click(poll)
@@ -259,7 +269,8 @@
           <span class="place">1-1</span>
           <span class="name">Jörgen</span>
           <span class="actions">
-            <button class="poke" data-alarm="123"><!-- <div class="spinner">&nbsp;</div> --><span class="pokes">0</span></button>
+            <input type="hidden" name="id" id="123"></input>
+            <button class="poke"><div class="spinner">&nbsp;</div><span class="pokes">0</span></button>
           </span>
         </div>
       </div>
