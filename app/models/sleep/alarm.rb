@@ -12,11 +12,13 @@ class Sleep::Alarm
   field :section_name, :type => String
   field :person_name, :type => String
   field :place_string, :type => String
+  field :person_image_url, :type => String
   
   before_save do |obj|
     obj.section_name = obj.person.place.section.name
     obj.person_name = obj.person.username
     obj.place_string = obj.person.place.to_s
+    obj.person_image_url = obj.person.avatar_url
   end
   
   scope :active, where(:status => :active)
@@ -61,7 +63,8 @@ class Sleep::Alarm
         :name => alarm.person_name,
         :place => alarm.place_string,
         :pokes => alarm.poked,
-        :id => alarm.id
+        :id => alarm.id,
+        :image_url => alarm.person_image_url
       }
     end
     

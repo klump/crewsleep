@@ -14,4 +14,11 @@ class Crew::Person
   after_update do
     alarms.each &:save
   end
+  
+  alias_method :_avatar_url, :avatar_url
+  def avatar_url
+    a = _avatar_url
+    a = "http://crew.dreamhack.se#{a}" unless a.nil? or a.start_with?("http")
+    a
+  end
 end

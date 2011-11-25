@@ -74,7 +74,15 @@
       	text-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
       	outline: none;
       }
-      
+      .overlayimage {
+        position: fixed;
+        top: 0;
+        display:block;
+        max-width:100%;
+      }
+      .overlayimage.hide{
+        display: none;
+      }
     </style>
     <script src="/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
@@ -168,7 +176,7 @@
                   all_items[this.id] = true
                   var item = List.find_item(section, this.id)
                   if(item) List.update_item(item, this.name, this.place, this.pokes)
-                  if(!item) item = List.add_item(section, this.name, this.place, this.pokes, this.id)
+                  if(!item) item = List.add_item(section, this.name, this.place, this.pokes, this.id, this.image_url)
                   item.find(".poke").unbind("click").click(function() {
                     poke($(this));
                   })
@@ -187,6 +195,16 @@
             console.log("error performing poll")
           }
         })
+      }
+      
+      function show_image (a) {
+        a = $(a)
+        $(".overlayimage").attr("src", a.attr("data-src"))
+        console.log(a)
+        $(".overlayimage").removeClass("hide")
+      }
+      function hide_image(img) {
+        $(".overlayimage").addClass("hide")
       }
 
       $(function() {
@@ -209,9 +227,10 @@
             list.append(section)
             return section;
           },
-          add_item: function(section, name, place, pokes, id) {
+          add_item: function(section, name, place, pokes, id, image_url) {
             var item = this.t_item.clone();
             item.find(".name").html(name)
+            item.find(".name").attr("data-src", image_url)
             if(pokes >= MAX_POKES) pokes = "X"
             item.find(".pokes").html(pokes)
             item.find(".place").html(place)
@@ -259,6 +278,7 @@
       })
     </script>
   </head>
+  <img class="overlayimage hide" src="http://www.wpclipart.com/people/faces/anonymous/photo_not_available_large.png" onClick="hide_image(this)" />
   <button id="reload">reload</button>
   <div class="lists box normal" id="alarm-list">
     <div class="list">
@@ -267,7 +287,7 @@
         <h3>Main</h2>
         <div class="item">
           <span class="place">1-1</span>
-          <span class="name">Jörgen</span>
+          <span onClick="show_image(this); return false;" data-src="http://uddevalla.sverigedemokraterna.se/files/2011/01/MUH.jpg" class="name">Jörgen</span>
           <span class="actions">
             <input type="hidden" name="id" id="123"></input>
             <button class="poke"><div class="spinner">&nbsp;</div><span class="pokes">0</span></button>
