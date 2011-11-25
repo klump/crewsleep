@@ -78,7 +78,7 @@
     </style>
     <script src="/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
-      window.console = {log: function(a,b,c,d,e) { alert(a + b + c)}}
+      if(!window.console) window.console = {log: function(a,b,c,d,e) { }}
 
       var List;
       var retryList = [];
