@@ -4,12 +4,7 @@ require 'uri'
 class ApiController < ApplicationController
 
   def fetch_person
-	if (params[:q].length == 12 && params[:q] =~ /^\d+$/) then
-		code = UpcCode.new(params[:q])
-		person = Crew::PersonHelper.fetch_person_by_cco_id(code.to_i)
-	else
-		person = Crew::PersonHelper.fetch_person_by_username(params[:q])
-	end
+	  person = Crew::Person.by_username_or_cco_id(params[:q])
     render :json => person.to_json(
     	:except => [ :created_at, :updated_at ],
     	:include => [ :place, :alarms ]
