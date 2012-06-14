@@ -15,6 +15,7 @@ class Sleep::Alarm
   field :section_name, :type => String
   field :row_index, :type => Integer
   field :place_index, :type => Integer
+  field :place_sorting_index, :type => Integer
 
   before_save do |alarm|
     alarm.update_person_and_place
@@ -26,6 +27,7 @@ class Sleep::Alarm
     self.section_name = person.place.section.name
     self.row_index = person.place.row.index
     self.place_index = person.place.index
+    self.place_sorting_index = person.place.sorting_index
   end
   
   scope :active, where(status: :active)
@@ -35,7 +37,10 @@ class Sleep::Alarm
   end
 
   def self.active_grouped_by_time_and_place
-    alarms = self.active.order_by([[:time, :asc], [:section_name, :asc], [:row_index, :asc], [:place_index, :asc]])
+    alarms = self.active.order_by([[:time, :asc], [:section_name, :asc], [:place_sorting_index, :asc]])
+    alarms.each do |alarm|
+      puts "#{alarm.time} - #{alarm.section_name}:#{alarm.place_sorting_index} - #{alarm.row_index}-#{alarm.place_index}"
+    end
 
     times = []
     current_time = nil

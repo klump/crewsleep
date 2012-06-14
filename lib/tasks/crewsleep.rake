@@ -27,4 +27,35 @@ namespace :crewsleep do
     puts "Done"
   end
 
+  desc "Set the wakeup sorting of places"
+  task :sort_places => :environment do
+    Sleep::Section.all.each do |section|
+      row_string = ""
+      section.rows.each do |row|
+        row_string += "," unless row_string.empty?
+        row_string += row.index.to_s
+      end
+      puts "Enter row groups for \"#{section.name}\" with rows: #{row_string} [e.g. 1-2,3]:"
+      sorting_index = 0
+      STDIN.readline.split(",").each do |row_group|
+        row_ids = []
+        row_group.split("-").each do |row_index|
+          row_ids.append(section.rows.where(index: row_index).one._id)
+        end
+        Sleep::Place.where(:row_id.in => row_ids).order_by([ :index, :asc ]).each do |place|
+          place.sorting_index = sorting_index
+          place.save
+          place.people.each do |person|
+            person.alarms.each do |alarm|
+              alarm.update_person_and_place
+              alarm.save
+            end
+          end
+          sorting_index += 1
+        end
+      end
+    end
+    puts "Done"
+  end
+
 end
