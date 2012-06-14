@@ -3,6 +3,7 @@ class Sleep::Place
   include Mongoid::Timestamps
 
   field :index, :type => Integer
+  field :sorting_index, :type => Integer
 
   belongs_to :row, :class_name => "Sleep::Row"
   has_many :people, :class_name => "Crew::Person"
