@@ -1,0 +1,41 @@
+sections:
+
+  - name: "Main"
+    valid_minutes:
+      - 0
+      - 30
+    places:
+      - row: 1
+        places: 46
+      - row: 2
+        places: 45
+      - row: 3
+        places: 45
+      - row: 4
+        places: 45
+      - row: 5
+        places: 44
+      - row: 6
+        places: 39
+
+  - name: "Snarken"
+    valid_minutes:
+      - 0
+      - 30
+    places:
+      - row: 1
+        places: 11
+      - row: 2
+        places: 11
+      - row: 3
+        places: 11
+      - row: 4
+        places: 11
+      - row: 5
+        places: 11
+      - row: 6
+        places: 3
+      - row: 7
+        places: 9
+      - row: 8
+        places: 10

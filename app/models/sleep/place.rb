@@ -2,10 +2,9 @@ class Sleep::Place
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :row, :class_name => "Sleep::Row"
-
   field :index, :type => Integer
-  
+
+  belongs_to :row, :class_name => "Sleep::Row"
   has_many :people, :class_name => "Crew::Person"
 
   after_update do |place|
@@ -20,7 +19,7 @@ class Sleep::Place
   def to_s
     "#{row.index}-#{index}"
   end
-  
+
   def row
     section.rows.where("_id" => row_id).first
   end
