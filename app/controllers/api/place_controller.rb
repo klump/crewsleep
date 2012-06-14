@@ -27,31 +27,4 @@ class Api::PlaceController < ApplicationController
     }.to_json
   end
 
-  def replace_all
-    Sleep::Section.delete_all
-
-    params[:places].each_value do |section_data|
-      valid_minutes = Array.new
-      puts section_data
-      section_data["valid_minutes"].split(",").each do |part|
-        valid_minutes.push(part.to_i)
-      end
-      section = Sleep::Section.create({ :name => section_data["name"], :valid_minutes => valid_minutes })
-
-      row_index = 1
-      section_data["rows"].each_value do |row_data|
-        row = section.rows.create({ :index => row_index })
-        row_index += 1
-
-        place_count = 1
-        row_data.to_i.times do
-          row.places.create({ :index => place_count })
-          place_count += 1
-        end
-      end
-    end
-
-    render :nothing => true
-  end
-
 end

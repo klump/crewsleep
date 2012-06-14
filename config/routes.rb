@@ -6,7 +6,6 @@ Crewsleep::Application.routes.draw do
     post   "api/persons/:id/book"   => "person#book"
 
     get    "api/places"             => "place#index"
-    post   "api/places/replace_all" => "place#replace_all"
     get    "api/places/:id"         => "place#show"
 
     get    "api/alarms/active"      => "alarm#index_active"
