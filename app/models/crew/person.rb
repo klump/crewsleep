@@ -14,7 +14,10 @@ class Crew::Person
   belongs_to :place, :class_name => "Sleep::Place"
   
   after_update do
-    alarms.each &:save
+    alarms.each do |alarm|
+      alarm.update_person_and_place
+      alarm.save
+    end
   end
   
   def self.by_username_or_cco_id(username_or_cc_oid)

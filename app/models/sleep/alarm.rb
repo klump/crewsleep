@@ -8,30 +8,65 @@ class Sleep::Alarm
   field :poked, :type => Integer, :default => 0
   field :status, :type => Symbol, :default => :active
 
-  # belongs_to :place, :class_name => "Sleep::Place"
   belongs_to :person, :class_name => "Crew::Person"
-  
-  field :section_name, :type => String
-  field :person_name, :type => String
-  field :place_string, :type => String
+
+  field :person_nickname, :type => String
   field :person_image_url, :type => String
-  
-  before_save do |obj|
-    obj.section_name = obj.person.place.section.name
-    obj.person_name = obj.person.username
-    obj.place_string = obj.person.place.to_s
-    obj.person_image_url = obj.person.avatar_url
+  field :section_name, :type => String
+  field :row_index, :type => Integer
+  field :place_index, :type => Integer
+
+  before_save do |alarm|
+    alarm.update_person_and_place
+  end
+
+  def update_person_and_place
+    self.person_nickname = person.username
+    self.person_image_url = person.avatar_url
+    self.section_name = person.place.section.name
+    self.row_index = person.place.row.index
+    self.place_index = person.place.index
   end
   
-  scope :active, where(:status => :active)
+  scope :active, where(status: :active)
   
   def self.active_poked
-    self.where(:status => :active, :poked.gt => 0)
+    self.active.where(:poked.gt => 0)
+  end
+
+  def self.active_grouped_by_time_and_place
+    alarms = self.active.order_by([[:time, :asc], [:section_name, :asc], [:row_index, :asc], [:place_index, :asc]])
+
+    times = []
+    current_time = nil
+    current_section = nil
+    alarms.each do |alarm|
+      if (current_time.nil? || alarm.time != current_time[:time])
+        current_time = {
+          time: alarm.time,
+          sections: []
+        }
+        times.append(current_time)
+        current_section = nil
+      end
+
+      if (current_section.nil? || alarm.section_name != current_section[:name])
+        current_section = {
+            name: alarm.section_name,
+            alarms: []
+        }
+        current_time[:sections].append(current_section)
+      end
+
+      current_section[:alarms].append(alarm)
+    end
+    times
   end
   
   def self.active_grouped_by_time_and_section
     alarms = self.where(:status => :active, :time.lt => (Time.now + 2.hours)).order_by([[:time, :asc],[:section_name, :asc]]).to_a
-    if alarms.length == 0
+
+    if (alarms.length == 0)
       alarms = self.where(:status => :active, :time.lt => (Time.now + 10.hours)).order_by([[:time, :asc],[:section_name, :asc]]).limit(1).to_a
       return [] unless alarms.first
       hh, mm, _ = Date.day_fraction_to_time(Sleep::Alarm.first.time-DateTime.now)
@@ -45,14 +80,11 @@ class Sleep::Alarm
     end
     
     alarms.sort! do |a,b|
-      arow, aplace = a.place_string.split("-").map(&:to_i)
-      brow, bplace = b.place_string.split("-").map(&:to_i)
-      
       #if its the same row, or rows that share a path
       #but not if they share 7 and 8 (dhw11 "snarken" layout)
-      order = (arow <=> brow) 
-      order = 0 if ((arow-brow).abs == 1 && [arow,brow].min%2 != 0) && !(arow+brow == 7+8) if order != 0
-      order = (aplace <=> bplace) if order == 0
+      order = (a.row_index <=> b.row_index)
+      order = 0 if ((a.row_index-b.row_index).abs == 1 && [a.row_index,b.row_index].min%2 != 0) && !(a.row_index+b.row_index == 7+8) if order != 0
+      order = (a.place_index <=> b.place_index) if order == 0
       order
     end
     
@@ -62,8 +94,8 @@ class Sleep::Alarm
     alarms.each do |alarm|
       times[alarm.time] ||= {alarm.section_name => []}
       (times[alarm.time][alarm.section_name] ||= []) << {
-        :name => alarm.person_name,
-        :place => alarm.place_string,
+        :name => alarm.person_nickname,
+        :place => "#{alarm.row_index}-#{alarm.place_index}",
         :pokes => alarm.poked,
         :id => alarm.id,
         :image_url => alarm.person_image_url

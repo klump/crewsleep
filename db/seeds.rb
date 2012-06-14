@@ -46,11 +46,10 @@ if Rails.env == "development"
   
   100.times do
     pl = Sleep::Section.all.to_a[rand(2)].rows
-    Crew::Person.create(:firstname=>random_name, :username=>random_name, :place => random_place)
+    Crew::Person.create(:firstname => random_name, :lastname => random_name, :username => random_name, :place => random_place)
   end
   persons = Crew::Person.all.to_a
   100.times do
     Sleep::Alarm.create({ :person => persons[rand(persons.length)], :time => Time.now + (rand(12)*3).hours })
-    # Sleep::Alarm.create({ :person => persons[rand(persons.length)], :time => Time.now + (3).hours })
   end
 end
