@@ -19,7 +19,7 @@ namespace :crewsleep do
       section_config["rows"].each do |row_config|
         row = section.rows.create({ :index => row_config["row"] })
         row_config["places"].times do |place_index|
-          row.places.create({ :index => place_index })
+          row.places.create({ :index => place_index+1 })
         end
       end
     end
