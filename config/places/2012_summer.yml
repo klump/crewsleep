@@ -1,21 +1,59 @@
 sections:
 
-  - name: "Main"
+  - name: "Main Hall"
     valid_minutes:
       - 0
       - 30
     rows:
       - row: 1
-        places: 14
+        places: 45
       - row: 2
-        places: 13
+        places: 46
+      - row: 3
+        places: 46
+      - row: 4
+        places: 46
+      - row: 5
+        places: 46
+      - row: 6
+        places: 41
 
-  - name: "Snarken"
+  - name: "Snarksalen"
     valid_minutes:
       - 0
       - 30
     rows:
       - row: 1
-        places: 2
+        places: 13
       - row: 2
-        places: 3
+        places: 10
+      - row: 3
+        places: 10
+      - row: 4
+        places: 10
+      - row: 5
+        places: 10
+      - row: 6
+        places: 10
+      - row: 7
+        places: 9
+
+  - name: "Tyst Avdelning"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 15
+      - row: 2
+        places: 10
+      - row: 3
+        places: 10
+      - row: 4
+        places: 10
+      - row: 5
+        places: 10
+      - row: 6
+        places: 10
+      - row: 7
+        places: 12
