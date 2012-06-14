@@ -9,7 +9,7 @@ class Api::AlarmController < ApplicationController
   end
 
   def destroy
-    alarm = Sleep::Alarm.find(params[:alarm])
+    alarm = Sleep::Alarm.find(params[:id])
     alarm.status = :deleted
     alarm.save
 
@@ -85,7 +85,7 @@ class Api::AlarmController < ApplicationController
   end
 
   def poke
-    alarm = Sleep::Alarm.find(params[:alarm])
+    alarm = Sleep::Alarm.find(params[:id])
     alarm.poked = alarm.poked.to_i+1
     alarm.save
 
@@ -93,7 +93,7 @@ class Api::AlarmController < ApplicationController
   end
 
   def finish
-    alarm = Sleep::Alarm.find(params[:alarm])
+    alarm = Sleep::Alarm.find(params[:id])
     alarm.status = :finished
     alarm.save
 

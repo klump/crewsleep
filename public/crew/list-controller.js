@@ -28,16 +28,8 @@ var ListController = new Class({
 		this.listView = listView
 		this.alarmList = alarmList
 
-		this.pokeRequest = new Request({
-			url: "/api/v1/poke",
-			onSuccess: this.update.bind(this)
-		})
-		this.deleteAlarmRequest = new Request({
-			url: "/api/v1/delete_alarm",
-			onSuccess: this.update.bind(this)
-		})
 		this.activeAlarmsRequest = new Request.JSON({
-			url: "/api/v1/fetch_active_alarms",
+			url: "/api/alarms/active",
 			onSuccess: this.handleActiveAlarmsResponse.bind(this),
 			onFailure: this.handleActiveAlarmsFailure.bind(this)
 		})
@@ -104,7 +96,10 @@ var ListController = new Class({
 						value: "Poke!"
 					})
 					pokeButton.addEvent("click", function() {
-						this.pokeRequest.post({ alarm: alarm._id})
+            new Request({
+              url: "/api/alarms/"+alarm._id+"/poke",
+              onSuccess: this.update.bind(this)
+            }).post()
 					}.bind(this))
 					pokeButton.inject(actionsSpan)
 
@@ -113,7 +108,10 @@ var ListController = new Class({
 						value: "Ta bort"
 					})
 					deleteButton.addEvent("click", function() {
-						this.deleteAlarmRequest.post({ alarm: alarm._id})
+            new Request({
+              url: "/api/alarms/"+alarm._id,
+              onSuccess: this.update.bind(this)
+            }).delete()
 					}.bind(this))
 					deleteButton.inject(actionsSpan)
 				}, this)

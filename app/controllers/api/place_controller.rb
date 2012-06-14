@@ -17,7 +17,7 @@ class Api::PlaceController < ApplicationController
   end
 
   def show
-    place = Sleep::Place.find(params[:place])
+    place = Sleep::Place.find(params[:id])
     section = Sleep::Section.first(:conditions => { "rows._id" => place.row_id })
     row = section.rows.find(place.row_id)
 

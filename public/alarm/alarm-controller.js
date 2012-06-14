@@ -23,21 +23,11 @@ var AlarmController = new Class({
 		this.setButton.addEvent("click", this.setAlarm.bind(this))
 		this.alarmForm["hour"].addEvent("change", this.updateTime.bind(this))
 		this.alarmForm["minute"].addEvent("change", this.updateTime.bind(this))
-		
-		this.placeInfoRequest = new Request.JSON({
-			url: "/api/v1/fetch_place_info",
-			onSuccess: this.handlePlaceInfoResponse.bind(this),
-			onFailure: this.handlePlaceInfoFailure.bind(this)
-		})
+
 		this.setAlarmRequest = new Request({
 			url: this.alarmForm.get("action"),
 			onSuccess: this.handleSetAlarmResponse.bind(this),
 			onFailure: this.handleSetAlarmFailure.bind(this)
-		})
-		this.deleteAlarmRequest = new Request({
-			url: "/api/v1/delete_alarm",
-			onSuccess: this.handleDeleteAlarmResponse.bind(this),
-			onFailure: this.handleDeleteAlarmFailure.bind(this)
 		})
 	},
 	
@@ -147,7 +137,11 @@ var AlarmController = new Class({
 	
 	updateAndShow: function(person) {
 		this.person = person
-		this.placeInfoRequest.get("place="+person.place._id)
+    new Request.JSON({
+      url: "/api/places/"+person.place._id,
+      onSuccess: this.handlePlaceInfoResponse.bind(this),
+      onFailure: this.handlePlaceInfoFailure.bind(this)
+    }).get()
 	},
 	
 	// View logic
@@ -214,7 +208,11 @@ var AlarmController = new Class({
 			removeLink.inject(alarmParagraph)
 			removeLink.addEvent("click", function(event) {
 				event.preventDefault()
-				this.deleteAlarmRequest.post({ alarm: alarm._id })
+        new Request({
+          url: "/api/alarms/"+alarm._id,
+          onSuccess: this.handleDeleteAlarmResponse.bind(this),
+          onFailure: this.handleDeleteAlarmFailure.bind(this)
+        }).delete()
 				removeLink.getParent().destroy()
 			}.bind(this))
 			

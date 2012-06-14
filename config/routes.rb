@@ -1,26 +1,24 @@
 Crewsleep::Application.routes.draw do
 
   scope :module => "api" do
-    post "api/v1/book_place" => "person#book"
 
-    get "api/v1/fetch_place_info" => "place#show"
-    get "api/v1/fetch_places" => "place#index"
-    post "api/v1/save_places" => "place#replace_all"
+    get    "api/persons/fetch"      => "person#fetch"
+    post   "api/persons/:id/book"   => "person#book"
 
-    get "api/v1/fetch_person" => "person#show"
+    get    "api/places"             => "place#index"
+    post   "api/places/replace_all" => "place#replace_all"
+    get    "api/places/:id"         => "place#show"
 
-    get "api/v1/fetch_active_alarms" => "alarm#index_active"
+    get    "api/alarms/active"      => "alarm#index_active"
+    get    "api/alarms/active_alt"  => "alarm#index_active_alternative"
+    get    "api/alarms/poked"       => "alarm#index_poked"
+    post   "api/alarms"             => "alarm#create"
+    delete "api/alarms/:id"         => "alarm#destroy"
+    post   "api/alarms/:id/finish"  => "alarm#finish"
+    post   "api/alarms/:id/poke"    => "alarm#poke"
 
-    post "api/v1/set_alarm" => "alarm#create"
-    post "api/v1/delete_alarm" => "alarm#destroy"
-    post "api/v1/finish_alarm" => "alarm#finish"
-    post "api/v1/poke" => "alarm#poke"
-
-    get "api/v2/fetch_active_alarms" => "alarm#index_active_alternative"
-    get "api/v2/fetch_alarms_poked" => "alarm#index_poked"
-
-    get "api/v2/info" => "info#show"
-    post 'api/v2/info' => "info#update"
+    get    "api/info"               => "info#show"
+    post   "api/info"               => "info#update"
 
   end
 
