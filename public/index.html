@@ -26,7 +26,7 @@
 	    	<div id="person-step" class="box narrow hidden">
 	    		<div class="inner">
 		    		<p><span class="big">Hej!</span> Blippa din bricka eller skriv ditt nick för att boka sovplats och beställa väckning. Behöver du tangentbord finns det en knapp på datorns vänstra sida vid skärmfästet.</p>
-		            <form id="person-form" action="/api/v1/fetch_person">
+		            <form id="person-form" action="/api/persons/fetch">
 		                <p class="person-field"><input type="text" name="q" /></p>
 		                <p class="button-row"><input type="submit" value="Fortsätt" /></p>
 		            </form>
@@ -36,7 +36,7 @@
 	        	<div class="inner">
 	        	  <span class="actions" style="float:right"><button id="place-cancel">Avbryt</button></span>
 	        		<p>Var vänlig välj var du bor, kära <span id="place-nickname"></span>.</p>
-	        		<form id="place-form" action="/api/v1/book_place">
+	        		<form id="place-form" action="">
 	        			<div id="place-sections" class="hidden">
 	        				<h2>Sektion</h2>
 	        				<p class="choices"></p>
@@ -71,7 +71,7 @@
 		        			<a href="#" class="remove">Ta bort</a>
 		        		</p>
 			        </div>
-		        	<form id="alarm-form" action="/api/v1/set_alarm">
+		        	<form id="alarm-form" action="/api/alarms">
 		        		<p id="alarm-hours">
 		        			<select name="hour">
 		        				<option value="1">1</option>

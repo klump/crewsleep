@@ -8,9 +8,8 @@
       var t_item;
       function remove_alarm (id, done) {
          $.ajax({
-            url: "/api/v1/delete_alarm",
-            type: 'post',
-            data: {alarm:id},
+            url: "/api/alarms/"+id,
+            type: 'delete',
             success: function(data) {
               done()
             },
@@ -27,10 +26,10 @@
       }
             
       function update () {
-        $.get("/api/v2/info", function(data) {
+        $.get("/api/info", function(data) {
           $(".info").html(data)
         })
-        $.get("/api/v2/fetch_alarms_poked", function(data) {
+        $.get("/api/alarms/poked", function(data) {
 //          $(".poked.item").remove()
           var all_items = {}
           $.each(data, function() {

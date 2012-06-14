@@ -66,14 +66,14 @@
         else alarm.closest(".item").addClass("removed").slideUp("fast", function() {$(this).remove()});
       }
       
-      function poke (alarm) {
+      function poke(alarm) {
         var id = alarm.data("alarm")
         alarm.addClass("loading")
         var remove = alarm.find(".pokes").html() == "X"
         if(remove){
           $.ajax({
-            url: "/api/v1/delete_alarm",
-            type: 'post',
+            url: "/api/alarms/"+id,
+            type: 'delete',
             data: {alarm:id},
             success: function(data) {
               alarm.removeClass("loading")
@@ -86,9 +86,8 @@
           })
         } else {
           $.ajax({
-            url: "/api/v1/poke",
+            url: "/api/alarms/"+id+"/poke",
             type: 'post',
-            data: {alarm:id},
             success: function(data) {
               if(data >= MAX_POKES) data = "X"
               alarm.find(".pokes").html(data)
@@ -108,7 +107,7 @@
       
       function poll () {
         $.ajax({
-          url: "/api/v2/fetch_active_alarms",
+          url: "/api/alarms/active_alt",
           success: function(data) {
             var all_items = {}
             $.each(data, function() {

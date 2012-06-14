@@ -24,15 +24,10 @@ var PlaceController = new Class({
 		this.cancelButton.addEvent("click", this.cancel.bind(this))
 		
 		this.placesRequest = new Request.JSON({
-			url: "/api/v1/fetch_places",
+			url: "/api/places",
 			onSuccess: this.handlePlacesResponse.bind(this),
 			onFailure: this.handlePlacesFailure.bind(this)
 			
-		})
-		this.bookRequest = new Request({
-		    url: this.placeForm.get("action"),
-		    onSuccess: this.handleBookResponse.bind(this),
-		    onFailure: this.handleBookFailure.bind(this)
 		})
 		
 	},
@@ -59,9 +54,12 @@ var PlaceController = new Class({
 	},
 	
 	bookPlace: function() {
-		this.bookRequest.post(
-			"person="+this.person._id+
-			"&section="+this.placeSections.getElement(":checked").get("value")+
+    new Request({
+      url: "/api/persons/"+this.person._id+"/book",
+      onSuccess: this.handleBookResponse.bind(this),
+      onFailure: this.handleBookFailure.bind(this)
+    }).post(
+			"section="+this.placeSections.getElement(":checked").get("value")+
 			"&row="+this.placeRows.getElement(":checked").get("value")+
 			"&place="+this.placePlaces.getElement(":checked").get("value")
 		)

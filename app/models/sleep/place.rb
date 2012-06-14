@@ -7,9 +7,14 @@ class Sleep::Place
   field :index, :type => Integer
   
   has_many :people, :class_name => "Crew::Person"
-  
-  def name
-  	"test"
+
+  after_update do |place|
+    place.people.each do |person|
+      person.alarms.each do |alarm|
+        alarm.update_person_and_place
+        alarm.save
+      end
+    end
   end
   
   def to_s

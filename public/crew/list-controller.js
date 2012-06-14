@@ -28,16 +28,8 @@ var ListController = new Class({
 		this.listView = listView
 		this.alarmList = alarmList
 
-		this.pokeRequest = new Request({
-			url: "/api/v1/poke",
-			onSuccess: this.update.bind(this)
-		})
-		this.deleteAlarmRequest = new Request({
-			url: "/api/v1/delete_alarm",
-			onSuccess: this.update.bind(this)
-		})
 		this.activeAlarmsRequest = new Request.JSON({
-			url: "/api/v1/fetch_active_alarms",
+			url: "/api/alarms/active",
 			onSuccess: this.handleActiveAlarmsResponse.bind(this),
 			onFailure: this.handleActiveAlarmsFailure.bind(this)
 		})
@@ -57,12 +49,11 @@ var ListController = new Class({
 	},
 
 	renderActiveAlarms: function(activeAlarms) {
-		console.log(activeAlarms)
 		this.alarmList.empty()
 		activeAlarms.each(function(time) {
 		  var t = new Date()
 		  t.setTime(Date.parse(time["time"]))
-		  var d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Tusday", "Friday", "Saturday"][t.getDay()]
+		  var d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][t.getDay()]
 		  var h = t.getHours()
 		  if(h < 10) h = "0"+h
 		  var m = t.getMinutes()
@@ -72,25 +63,26 @@ var ListController = new Class({
 			})
 			timeHeader.inject(this.alarmList)
 
-			for (var section in time["sections"]) {
+			for (var i = 0; i < time["sections"].length; i++) {
+        var section = time["sections"][i]
 				var sectionHeader = new Element("h3", {
-					html: section
+					html: section["name"]
 				})
 				sectionHeader.inject(this.alarmList)
 
 				var listElement = new Element("ul")
 				listElement.inject(this.alarmList)
 
-				time["sections"][section].each(function(alarm) {
+				section["alarms"].each(function(alarm) {
 					var alarmItem = new Element("li")
 					alarmItem.inject(listElement)
 
 					var timeSpan = new Element("span", {
-						html: alarm.place_name,
+						html: alarm.row_index+"-"+alarm.place_index,
 						"class": "place"
 					})
 					timeSpan.inject(alarmItem)
-					alarmItem.appendText(" "+alarm.person.username)
+					alarmItem.appendText(" "+alarm.person_nickname)
 
 					actionsSpan = new Element("span", {
 						"class": "actions"
@@ -104,7 +96,10 @@ var ListController = new Class({
 						value: "Poke!"
 					})
 					pokeButton.addEvent("click", function() {
-						this.pokeRequest.post({ alarm: alarm._id})
+            new Request({
+              url: "/api/alarms/"+alarm._id+"/poke",
+              onSuccess: this.update.bind(this)
+            }).post()
 					}.bind(this))
 					pokeButton.inject(actionsSpan)
 
@@ -113,7 +108,10 @@ var ListController = new Class({
 						value: "Ta bort"
 					})
 					deleteButton.addEvent("click", function() {
-						this.deleteAlarmRequest.post({ alarm: alarm._id})
+            new Request({
+              url: "/api/alarms/"+alarm._id,
+              onSuccess: this.update.bind(this)
+            }).delete()
 					}.bind(this))
 					deleteButton.inject(actionsSpan)
 				}, this)

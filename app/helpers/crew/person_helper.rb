@@ -1,3 +1,0 @@
-module Crew::PersonHelper
-
-end
