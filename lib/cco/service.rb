@@ -2,7 +2,10 @@ require 'net/http'
 require 'net/https'
 require 'uri'
 
-class Crew::CcoService
+module Cco
+
+end
+class Cco::Service
 
   def self.fetch_person(id_or_nick)
     uri = URI.parse("https://crew.dreamhack.se/export/user?zion=raw&user="+id_or_nick.to_s)

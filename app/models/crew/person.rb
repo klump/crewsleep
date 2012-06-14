@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/cco/service.rb"
+
 class Crew::Person
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -19,7 +21,7 @@ class Crew::Person
     username_or_cc_oid = UpcCode.new(username_or_cc_oid).to_i if username_or_cc_oid =~ /^\d{12}$/
     person = self.where(:username => /^#{username_or_cc_oid}$/i).first
     person = self.where(:cco_id => username_or_cc_oid.to_i).first unless person
-    person = Crew::CcoService.fetch_person(username_or_cc_oid) unless person
+    person = Cco::Service.fetch_person(username_or_cc_oid) unless person
     person
   end
   
