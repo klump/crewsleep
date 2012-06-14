@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Sleep::Alarm
   include Mongoid::Document
   include Mongoid::Timestamps

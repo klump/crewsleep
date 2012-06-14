@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.8'
+gem 'rails', '3.2.0'
 
 
 # Use unicorn as the web server
@@ -26,9 +26,9 @@ gem 'rails', '3.0.8'
 #   gem 'webrat'
 # end
 
-gem "SystemTimer", "~> 1.2"
+#gem "SystemTimer", "~> 1.2"
 
-gem "mongoid", "~> 2.0"
-gem "bson_ext", "~> 1.3"
+gem "mongoid", "~> 2.4"
+gem "bson_ext", "~> 1.5"
 
 gem "php_serialize"
