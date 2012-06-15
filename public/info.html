@@ -39,7 +39,7 @@
             
             all_items[this._id] = true;
             
-            item.find(".name").html(this.person_nickname)
+            item.find(".name").html(this.person_username)
             item.find("button").attr("data-alarm", this._id).unbind("click").click(function() {
               var id = $(this).attr("data-alarm")
               $(this).addClass("loading")

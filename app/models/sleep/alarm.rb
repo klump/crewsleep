@@ -10,7 +10,7 @@ class Sleep::Alarm
 
   belongs_to :person, :class_name => "Crew::Person"
 
-  field :person_nickname, :type => String
+  field :person_username, :type => String
   field :person_image_url, :type => String
   field :section_name, :type => String
   field :row_index, :type => Integer
@@ -22,7 +22,7 @@ class Sleep::Alarm
   end
 
   def update_person_and_place
-    self.person_nickname = person.username
+    self.person_username = person.username
     self.person_image_url = person.avatar_url
     self.section_name = person.place.section.name
     self.row_index = person.place.row.index
@@ -99,7 +99,7 @@ class Sleep::Alarm
     alarms.each do |alarm|
       times[alarm.time] ||= {alarm.section_name => []}
       (times[alarm.time][alarm.section_name] ||= []) << {
-        :name => alarm.person_nickname,
+        :name => alarm.person_username,
         :place => "#{alarm.row_index}-#{alarm.place_index}",
         :pokes => alarm.poked,
         :id => alarm.id,
