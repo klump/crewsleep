@@ -15,7 +15,6 @@ Crewsleep::Application.routes.draw do
     get    "api/places/:id"         => "place#show"
 
     get    "api/alarms/active"      => "alarm#index_active"
-    get    "api/alarms/active_alt"  => "alarm#index_active_alternative"
     get    "api/alarms/poked"       => "alarm#index_poked"
     post   "api/alarms"             => "alarm#create"
     delete "api/alarms/:id"         => "alarm#destroy"

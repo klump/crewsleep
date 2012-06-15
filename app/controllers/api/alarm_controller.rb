@@ -20,14 +20,6 @@ class Api::AlarmController < ApplicationController
     render :json => Sleep::Alarm.active_grouped_by_time_and_place
   end
 
-  def index_active_alternative
-    alarms = Sleep::Alarm.where(:status => :active).order_by([:time, :asc])
-    sections = Sleep::Section.all.to_a
-
-    response = Sleep::Alarm.active_grouped_by_time_and_section
-    render :json => response
-  end
-
   def index_poked
     render :json=>Sleep::Alarm.active_poked
   end
