@@ -91,7 +91,7 @@ var ListController = new Class({
             }).post()
 					}.bind(this))
 
-					alarmItem.getElement("delete-button").addEvent("click", function() {
+					alarmItem.getElement(".delete-button").addEvent("click", function() {
             new Request({
               url: "/api/alarms/"+alarm._id,
               onSuccess: this.update.bind(this)
