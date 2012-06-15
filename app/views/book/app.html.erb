@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Väckningssystemet</title>
-    <%= stylesheet_link_tag "book" %>
+    <%= stylesheet_link_tag :application %>
     <script type="text/javascript" src="http://use.typekit.com/uik3cti.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   </head>
@@ -112,7 +112,7 @@
       </div>
     </div>
   <div id="light"></div>
-    <%= javascript_include_tag :book %>
+    <%= javascript_include_tag :application %>
     <script type="text/javascript">
       var lampController = new LampController($("lamp"), $("light"))
       var pictureFrameController = new PictureFrameController($("picture-frame"), $("picture-frame-image"))
