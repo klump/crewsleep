@@ -1,6 +1,6 @@
 sections:
 
-  - name: "Main Hall"
+  - name: "Main"
     valid_minutes:
       - 0
       - 30
@@ -38,7 +38,7 @@ sections:
       - row: 7
         places: 9
 
-  - name: "Tyst Avdelning"
+  - name: "Tysk avdelning"
     valid_minutes:
       - 0
       - 30
