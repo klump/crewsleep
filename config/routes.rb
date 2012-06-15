@@ -1,6 +1,12 @@
 Crewsleep::Application.routes.draw do
 
-  scope :module => "api" do
+  root   to:             "book#app"
+  get    "info"       => "book#info"
+  get    "list"       => "wakeup#app"
+
+  get    "admin/info" => "admin#info"
+
+  scope module: "api" do
 
     get    "api/persons/fetch"      => "person#fetch"
     post   "api/persons/:id/book"   => "person#book"

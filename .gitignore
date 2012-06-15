@@ -1,4 +1,4 @@
 log/*
 tmp/*
 .bundle/
-vendor/
+vendor/bundle/
