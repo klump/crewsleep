@@ -64,6 +64,7 @@ var ListController = new Class({
 			timeHeader.inject(this.alarmList)
 
 			for (var i = 0; i < time["sections"].length; i++) {
+
         var section = time["sections"][i]
 				var sectionHeader = new Element("h3", {
 					html: section["name"]
@@ -74,46 +75,28 @@ var ListController = new Class({
 				listElement.inject(this.alarmList)
 
 				section["alarms"].each(function(alarm) {
+          itemHtml  = "<span class=\"place\">"+alarm.row_index+"-"+alarm.place_index+"</span> "+alarm.person_username
+          itemHtml += "<span class=\"actions\">"
+          itemHtml += "<a class=\"button poke-button\"><span class=\"extra\">Poke (</span>"+alarm.poked+"<span class=\"extra\">)</span></a> "
+          itemHtml += "<a class=\"button delete-button\"><span class=\"extra\">Ta bort</span> <span class=\"minimal\">x</span></a>"
+          itemHtml += "</span>"
 					var alarmItem = new Element("li")
+          alarmItem.set("html", itemHtml)
 					alarmItem.inject(listElement)
 
-					var timeSpan = new Element("span", {
-						html: alarm.row_index+"-"+alarm.place_index,
-						"class": "place"
-					})
-					timeSpan.inject(alarmItem)
-					alarmItem.appendText(" "+alarm.person_username)
-
-					actionsSpan = new Element("span", {
-						"class": "actions"
-					})
-					actionsSpan.inject(alarmItem)
-
-					actionsSpan.appendText(alarm.poked+" pokes ")
-
-					pokeButton = new Element("input", {
-						type: "button",
-						value: "Poke!"
-					})
-					pokeButton.addEvent("click", function() {
+					alarmItem.getElement(".poke-button").addEvent("click", function() {
             new Request({
               url: "/api/alarms/"+alarm._id+"/poke",
               onSuccess: this.update.bind(this)
             }).post()
 					}.bind(this))
-					pokeButton.inject(actionsSpan)
 
-					deleteButton = new Element("input", {
-						type: "button",
-						value: "Ta bort"
-					})
-					deleteButton.addEvent("click", function() {
+					alarmItem.getElement("delete-button").addEvent("click", function() {
             new Request({
               url: "/api/alarms/"+alarm._id,
               onSuccess: this.update.bind(this)
             }).delete()
 					}.bind(this))
-					deleteButton.inject(actionsSpan)
 				}, this)
 			}
 		}, this)

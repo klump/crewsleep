@@ -30,7 +30,7 @@
   }
 
   .inner {
-    padding: 0 40px;
+    padding: 20px 40px;
   }
 }
 
@@ -42,5 +42,42 @@
 
   p {
     text-shadow: 0 0 2px rgb(0, 0, 0);
+  }
+}
+
+@media (max-width: 450px) {
+  #container {
+    padding: 0;
+  }
+
+  .message {
+    width: 100%;
+  }
+
+  .box {
+    border-width: 0;
+    border-radius: 0;
+
+    &.narrow, &.normal {
+      background:
+        url("graphics/layout/box-narrow-gradient.png") no-repeat padding-box,
+        url("graphics/layout/box-narrow-tile.png") repeat-y padding-box;
+    }
+
+    &.narrow {
+      width: 100%;
+    }
+
+    .inner {
+      padding: 10px 20px;
+    }
+  }
+}
+
+@media (max-width: 940px) {
+  .box {
+    &.normal {
+      width: 100%;
+    }
   }
 }

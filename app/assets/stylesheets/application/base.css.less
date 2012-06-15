@@ -1,32 +1,13 @@
 html, body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
-  background: url("graphics/base/background-tile.png") center top;
+  background: url("graphics/base/background-tile.png") center top fixed;
   margin: 0;
   font-family: "ff-speak-web-1","ff-speak-web-2", sans-serif;
   font-size: 25px;
   line-height: 40px;
-}
-
-.hidden {
-  display: none;
-}
-
-.spinner {
-  position: absolute;
-  width: 30px;
-  background:none;
-  display: none;
-}
-.loading .spinner{
-  display: block;
-  background: url("graphics/base/spinner.gif") center no-repeat;
-}
-
-.big {
-  font-size: 1.8em;
 }
 
 h2 {
@@ -44,4 +25,39 @@ h2, h3, p {
   text-shadow: 0 0 2px rgba(255, 255, 255, 1);
   margin-top: 0;
   margin-bottom: 10px;
+}
+
+.big {
+  font-size: 1.8em;
+}
+
+.hidden {
+  display: none;
+}
+
+.spinner {
+  position: absolute;
+  width: 30px;
+  background:none;
+  display: none;
+}
+.loading .spinner{
+  display: block;
+  background: url("graphics/base/spinner.gif") center no-repeat;
+}
+
+@media (max-width: 450px) {
+  body {
+    font-size: 20px;
+  }
+
+  .extra {
+    display: none;
+  }
+}
+
+@media (min-width: 451px) {
+  .minimal {
+    display: none;
+  }
 }
