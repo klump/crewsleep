@@ -1,0 +1,67 @@
+#person-form {
+  .person-field input {
+    width: 330px;
+  }
+
+  .button-row {
+    text-align: right;
+  }
+}
+
+#place-form {
+  .choices.numbers > label, #alarm-form .choices.numbers > label {
+    display: inline-block;
+    width: 60px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .button-row {
+    text-align: right;
+  }
+}
+
+#alarm-existing {
+  &:not(:empty) {
+    border: 1px solid rgb(200, 200, 200);
+    border-width: 1px 0;
+  }
+
+  p {
+    position: relative;
+    overflow: hidden;
+
+    .time {
+      position: absolute;
+      left: 0;
+      top: -11px;
+    }
+
+    .remaining {
+      position: absolute;
+      left: 0;
+      bottom: -11px;
+      font-size: 0.7em;
+    }
+
+    .remove {
+      float: right;
+      color: rgb(0, 0, 0);
+
+      &:hover {
+        color: rgb(70, 70, 70);
+      }
+    }
+  }
+}
+
+#alarm-form {
+  .remaining {
+    font-size: 0.7em;
+    margin-left: 10px;
+  }
+
+  .button-row .continue-buttons {
+    float: right;
+  }
+}

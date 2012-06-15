@@ -1,6 +1,12 @@
 Crewsleep::Application.routes.draw do
 
-  scope :module => "api" do
+  root   to:             "book#app"
+  get    "info"       => "book#info"
+  get    "list"       => "wakeup#app"
+
+  get    "admin/info" => "admin#info"
+
+  scope module: "api" do
 
     get    "api/persons/fetch"      => "person#fetch"
     post   "api/persons/:id/book"   => "person#book"
@@ -9,7 +15,6 @@ Crewsleep::Application.routes.draw do
     get    "api/places/:id"         => "place#show"
 
     get    "api/alarms/active"      => "alarm#index_active"
-    get    "api/alarms/active_alt"  => "alarm#index_active_alternative"
     get    "api/alarms/poked"       => "alarm#index_poked"
     post   "api/alarms"             => "alarm#create"
     delete "api/alarms/:id"         => "alarm#destroy"

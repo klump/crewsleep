@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>Väcklista - Väckningssystemet</title>
+    <%= stylesheet_link_tag "wakeup" %>
+    <script type="text/javascript" src="http://use.typekit.com/uik3cti.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="list-view" class="box normal">
+        <div id="alarm-list" class="inner"></div>
+      </div>
+    </div>
+    <%= javascript_include_tag :wakeup %>
+    <script type="text/javascript">
+      new ListController($("list-view"), $("alarm-list"))
+    </script>
+  </body>
+</html>
