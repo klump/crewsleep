@@ -6,12 +6,12 @@ module Cco
   class Service
 
     def self.fetch_person(id_or_nick)
-      uri = URI.parse("https://crew.dreamhack.se/export/user?zion=raw&user="+id_or_nick.to_s)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
+      uri = URI("https://crew.dreamhack.se/export/user?zion=raw&user="+id_or_nick.to_s)
       request = Net::HTTP::Get.new(uri.request_uri)
       request.basic_auth("ssv", "vss")
-      response = http.request(request)
+      response = Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https', :verify_mode => OpenSSL::SSL::VERIFY_NONE) do |https|
+        https.request(request)
+      end
       response_object = PHP.unserialize(response.body)
 
       return nil if response_object == false
