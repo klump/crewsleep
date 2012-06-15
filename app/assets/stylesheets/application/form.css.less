@@ -1,0 +1,76 @@
+input[type=radio] {
+  display: none;
+
+  & + span {
+    border: 3px solid transparent;
+    border-radius: 10px;
+    padding: 0 10px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+input[type=radio]:not(:checked) + span:hover {
+  border-color: #ccc;
+}
+input[type=radio]:checked + span {
+  border-color: black;
+}
+
+input[type=text] {
+  height: 40px;
+  border: solid transparent;
+  border-width: 0 5px;
+  border-radius: 3px;
+  background:
+    url("graphics/form/textfield-tile.png") repeat-x padding-box,
+    url("graphics/form/textfield-left.png") no-repeat left border-box,
+    url("graphics/form/textfield-right.png") no-repeat right border-box;
+  font: inherit;
+  padding: 0 5px;
+  line-height: 25px;
+
+  &:focus {
+    outline: none;
+    background:
+      url("graphics/form/textfield-active-tile.png") repeat-x padding-box,
+      url("graphics/form/textfield-active-left.png") no-repeat left border-box,
+      url("graphics/form/textfield-active-right.png") no-repeat right border-box;
+  }
+}
+
+select {
+  height: 40px;
+  -webkit-appearance: none;
+  outline: none;
+  border: solid transparent;
+  border-width: 0 21px 0 5px;
+  border-radius: 3px;
+  background:
+    url("graphics/form/dropdown-tile.png") repeat-x padding-box,
+    url("graphics/form/dropdown-left.png") no-repeat left border-box,
+    url("graphics/form/dropdown-right.png") no-repeat right border-box;
+  font: inherit;
+  padding: 0 8px 0 6px;
+}
+
+button, input[type=button], input[type=submit] {
+  height: 38px;
+  border: solid transparent;
+  border-width: 0 3px;
+  border-radius: 3px;
+  background:
+    url("graphics/form/button-tile.png") repeat-x padding-box,
+    url("graphics/form/button-left.png") no-repeat left border-box,
+    url("graphics/form/button-right.png") no-repeat right border-box;
+  font: inherit;
+  padding: 0 10px;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.6);
+  outline: none;
+
+  &:active {
+    background:
+      url("graphics/form/button-down-tile.png") repeat-x padding-box,
+      url("graphics/form/button-down-left.png") no-repeat left border-box,
+      url("graphics/form/button-down-right.png") no-repeat right border-box;
+  }
+}
