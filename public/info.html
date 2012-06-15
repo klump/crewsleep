@@ -39,7 +39,7 @@
             
             all_items[this._id] = true;
             
-            item.find(".name").html(this.person_name)
+            item.find(".name").html(this.person_nickname)
             item.find("button").attr("data-alarm", this._id).unbind("click").click(function() {
               var id = $(this).attr("data-alarm")
               $(this).addClass("loading")
@@ -85,7 +85,7 @@
         <div class="inner poked">
           Ta bort din bokning när du är vaken!
           <div class="poked item">
-            <span class="name">Foxy</span> <span class="actions" style="float:right;"><button><div class="spinner">&nbsp;</div>Vaken!</button></span>
+            <span class="name"></span> <span class="actions" style="float:right;"><button><div class="spinner">&nbsp;</div>Vaken!</button></span>
           </div>
         </div>
       </div>
