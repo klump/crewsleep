@@ -82,7 +82,7 @@ var ListController = new Class({
 						"class": "place"
 					})
 					timeSpan.inject(alarmItem)
-					alarmItem.appendText(" "+alarm.person_nickname)
+					alarmItem.appendText(" "+alarm.person_username)
 
 					actionsSpan = new Element("span", {
 						"class": "actions"

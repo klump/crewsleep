@@ -6,7 +6,7 @@ class Crew::Person
 
   field :firstname, :type => String
   field :lastname, :type => String
-  field :nickname, :type => String
+  field :username, :type => String
   field :avatar_url, :type => String
   field :cco_id, :type => Integer
 
@@ -20,11 +20,11 @@ class Crew::Person
     end
   end
   
-  def self.by_username_or_cco_id(username_or_cc_oid)
-    username_or_cc_oid = UpcCode.new(username_or_cc_oid).to_i if username_or_cc_oid =~ /^\d{12}$/
-    person = self.where(:username => /^#{username_or_cc_oid}$/i).first
-    person = self.where(:cco_id => username_or_cc_oid.to_i).first unless person
-    person = Cco::Service.fetch_person(username_or_cc_oid) unless person
+  def self.by_username_or_cco_id(username_or_cco_id)
+    username_or_cco_id = UpcCode.new(username_or_cco_id).to_i if username_or_cco_id =~ /^\d{12}$/
+    person = self.where(:username => /^#{username_or_cco_id}$/i).first
+    person = self.where(:cco_id => username_or_cco_id.to_i).first unless person
+    person = Cco::Service.fetch_person(username_or_cco_id) unless person
     person
   end
   
