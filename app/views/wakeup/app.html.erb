@@ -8,8 +8,10 @@
     <link rel="apple-touch-icon-precomposed" href="<%= asset_path "apple-touch-icon.png" %>" />
     <title>Väcklista - Väckningssystemet</title>
     <%= stylesheet_link_tag :application %>
-    <script type="text/javascript" src="http://use.typekit.com/uik3cti.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <% unless request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"] =~ /(Android 2)/ %>
+      <script type="text/javascript" src="http://use.typekit.com/uik3cti.js"></script>
+      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <% end %>
   </head>
   <body>
     <div id="container">
