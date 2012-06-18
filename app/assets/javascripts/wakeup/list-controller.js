@@ -92,6 +92,9 @@ var ListController = new Class({
 					}.bind(this))
 
 					alarmItem.getElement(".delete-button").addEvent("click", function() {
+            if (!confirm("Detta tar bort väckningen av "+alarm.person_username+".")) {
+              return
+            }
             new Request({
               url: "/api/alarms/"+alarm._id,
               onSuccess: this.update.bind(this)
