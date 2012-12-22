@@ -1,11 +1,12 @@
 source "http://rubygems.org"
 
-gem "rails", "3.2.0"
+gem "rails", "~> 3.2"
 
 group :assets do
   gem "less-rails"
   gem "therubyracer"
   gem "uglifier"
+  gem "libv8", "~> 3.11.8"
 end
 
 gem "mongoid", "~> 2.4"
