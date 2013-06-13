@@ -1,0 +1,58 @@
+sections:
+  - name: "A - Main hall"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 45
+      - row: 2
+        places: 45
+      - row: 3
+        places: 44
+      - row: 4
+        places: 44
+      - row: 5
+        places: 44
+      - row: 6
+        places: 39
+
+  - name: "B - Lite tysktare avdelning"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 7
+      - row: 2
+        places: 11
+      - row: 3
+        places: 11
+      - row: 4
+        places: 11
+      - row: 5
+        places: 11
+      - row: 6
+        places: 11
+      - row: 7
+        places: 8
+
+  - name: "C - Snarksalen"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 7
+      - row: 2
+        places: 11
+      - row: 3
+        places: 11
+      - row: 4
+        places: 11
+      - row: 5
+        places: 11
+      - row: 6
+        places: 11
+      - row: 7
+        places: 7
