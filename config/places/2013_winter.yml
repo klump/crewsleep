@@ -1,0 +1,38 @@
+sections:
+  - name: "A - Stora salen"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 45
+      - row: 2
+        places: 46
+      - row: 3
+        places: 46
+      - row: 4
+        places: 46
+      - row: 5
+        places: 46
+      - row: 6
+        places: 41
+
+  - name: "B - Lilla salen"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 7
+      - row: 2
+        places: 12
+      - row: 3
+        places: 12
+      - row: 4
+        places: 12
+      - row: 5
+        places: 12
+      - row: 6
+        places: 12
+      - row: 7
+        places: 8
