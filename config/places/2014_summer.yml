@@ -1,0 +1,58 @@
+sections:
+  - name: "A - Stora salen"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 44
+      - row: 2
+        places: 41
+      - row: 3
+        places: 42
+      - row: 4
+        places: 43
+      - row: 5
+        places: 42
+      - row: 6
+        places: 41
+
+  - name: "B - Nya Lilla salen"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 7
+      - row: 2
+        places: 10
+      - row: 3
+        places: 7
+      - row: 4
+        places: 11
+      - row: 5
+        places: 10
+      - row: 6
+        places: 11
+      - row: 7
+        places: 11
+
+  - name: "C - Gamla Nya Lilla salen"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 8
+      - row: 2
+        places: 11
+      - row: 3
+        places: 7
+      - row: 4
+        places: 11
+      - row: 5
+        places: 10
+      - row: 6
+        places: 10
+      - row: 7
+        places: 11
