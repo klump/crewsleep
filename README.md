@@ -39,3 +39,4 @@ TODO
 * Sortera in pokes bland väckningarna
 * Statistik
 * Facebookintegration
+* Inverterade färger "så man slipper ha en ficklampa i ansiktet"
