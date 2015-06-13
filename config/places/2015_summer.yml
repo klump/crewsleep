@@ -1,0 +1,64 @@
+sections:
+  - name: "A - The Great Hall"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 46
+      - row: 2
+        places: 46
+      - row: 3
+        places: 46
+      - row: 4
+        places: 45
+      - row: 5
+        places: 45
+      - row: 6
+        places: 39
+
+  - name: "B - The hall to the right"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 7
+      - row: 2
+        places: 11
+      - row: 3
+        places: 11
+      - row: 4
+        places: 11
+      - row: 5
+        places: 11
+      - row: 6
+        places: 3
+      - row: 7
+        places: 7
+
+  - name: "C - The inner hall to the right"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 7
+      - row: 2
+        places: 11
+      - row: 3
+        places: 11
+      - row: 4
+        places: 10
+      - row: 5
+        places: 10
+      - row: 6
+        places: 11
+      - row: 7
+        places: 8
+
+  - name: "E - Where you will have to wake yourself up"
+    valid_minutes: []
+    rows:
+      - row: 1
+        places: 100
