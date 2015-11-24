@@ -1,0 +1,68 @@
+sections:
+  - name: "A - Master Bedroom"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 47
+      - row: 2
+        places: 47
+      - row: 3
+        places: 48
+      - row: 4
+        places: 46
+      - row: 5
+        places: 49
+      - row: 6
+        places: 40
+
+  - name: "B1 - Guests and Goblins"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 4
+        places: 14
+      - row: 5
+        places: 13
+      - row: 6
+        places: 7
+
+  - name: "B2 - Dwarfs and Muggles"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 10
+      - row: 2
+        places: 13
+      - row: 3
+        places: 15
+
+  - name: "B3+B4 - Pilgrims and Snugglepuffs"
+    valid_minutes:
+      - 0
+      - 30
+    rows:
+      - row: 1
+        places: 3
+      - row: 2
+        places: 12
+      - row: 3
+        places: 12
+      - row: 4
+        places: 12
+      - row: 5
+        places: 12
+      - row: 6
+        places: 8
+      - row: 7
+        places: 6
+
+  - name: "E - Dungeon of doom and drowsiness (self service wakeups)"
+    valid_minutes: []
+    rows:
+      - row: 1
+        places: 100
