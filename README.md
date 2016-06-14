@@ -9,6 +9,12 @@ download && install mongodb
 $ gem install bundler
 $ bundle install
 
+Seeding
+===
+bundle exec rake db:drop RAILS_ENV=production
+bundle exec rake crewsleep:seed_places[2015_winter] RAILS_ENV=production
+bundle exec rake crewsleep:sort_places RAILS_ENV=production
+
 Running
 ===
 For devs
