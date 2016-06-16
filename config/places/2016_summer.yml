@@ -17,19 +17,7 @@ sections:
       - row: 6
         places: 40
 
-  - name: "B1 - Guests and Goblins"
-    valid_minutes:
-      - 15
-      - 45
-    rows:
-      - row: 4
-        places: 14
-      - row: 5
-        places: 13
-      - row: 7
-        places: 10
-
-  - name: "B2 - Dwarfs and Muggles"
+  - name: "B - Guests and Goblins"
     valid_minutes:
       - 15
       - 45
@@ -40,6 +28,14 @@ sections:
         places: 13
       - row: 3
         places: 15
+      - row: 4
+        places: 14
+      - row: 5
+        places: 13
+      - row: 6
+        places: 13
+      - row: 7
+        places: 10
 
   - name: "C - Pilgrims and Snugglepuffs"
     valid_minutes:
@@ -60,9 +56,3 @@ sections:
         places: 8
       - row: 7
         places: 7
-
-  - name: "E - Dungeon of doom and drowsiness (self service wakeups)"
-    valid_minutes: []
-    rows:
-      - row: 1
-        places: 100
