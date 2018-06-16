@@ -1,0 +1,3 @@
+api_url: https://api.crew.dreamhack.se/
+user: MY_SECRET_CUSTOMER_KEY
+password: MY_SECRET_CUSTOMER_SECRET

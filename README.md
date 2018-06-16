@@ -9,6 +9,12 @@ download && install mongodb
 $ gem install bundler
 $ bundle install
 
+Configure
+===
+
+Get an API token for the CCO API (talk to HQ).
+Copy the file `config/cco.yml.dist` to `config/cco.yml` and update the infomration in there.
+
 Seeding
 ===
 bundle exec rake db:drop RAILS_ENV=production

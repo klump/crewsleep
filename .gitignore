@@ -1,3 +1,4 @@
+config/cco.yml
 log/*
 tmp/*
 .bundle/
