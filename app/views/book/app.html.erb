@@ -11,50 +11,50 @@
     <div id="container">
       <div id="person-step" class="box narrow hidden">
         <div class="inner">
-          <p><span class="big">Hej!</span> Blippa din bricka eller skriv ditt nick för att boka sovplats och beställa väckning.</p>
+          <p><span class="big">Hi there!</span> Enter your nick to order wakeup calls and/ or tell us where you are sleeping.</p>
             <form id="person-form" action="/api/persons/fetch">
               <p class="person-field"><input type="text" name="q" /></p>
-              <p class="button-row"><input type="submit" value="Fortsätt" /></p>
+              <p class="button-row"><input type="submit" value="Continue" /></p>
             </form>
           </div>
         </div>
         <div id="place-step" class="box normal hidden">
           <div class="inner">
-            <span class="actions" style="float:right"><button id="place-cancel">Avbryt</button></span>
-            <p>Var vänlig välj var du bor, kära <span id="place-nickname"></span>.</p>
+            <span class="actions" style="float:right"><button id="place-cancel">Abort, abort!</button></span>
+            <p>Please choose where <span id="place-nickname"></span> is sleeping.</p>
             <form id="place-form" action="">
               <div id="place-sections" class="hidden">
-                <h2>Sektion</h2>
+                <h2>Room</h2>
                 <p class="choices"></p>
               </div>
               <div id="place-rows" class="hidden">
-                <h2>Rad</h2>
+                <h2>Row</h2>
                 <p class="choices numbers"></p>
               </div>
               <div id="place-places" class="hidden">
-                <h2>Plats</h2>
+                <h2>Place</h2>
                 <p class="choices numbers"></p>
               </div>
               <p id="place-buttons" class="button-row hidden">
-                <input id="place-book-and-quit" type="submit" value="Boka och avsluta" />
-                <input id="place-book-and-continue" type="submit" value="Boka och gå vidare till väckningsbeställning" />
+                <input id="place-book-and-quit" type="submit" value="Submit and quit" />
+                <input id="place-book-and-continue" type="submit" value="Submit and book wakeup call" />
               </p>
             </form>
           </div>
         </div>
         <div id="alarm-step" class="box narrow hidden">
           <div class="inner">
-            <p>Här beställer du väckningar till din plats <span id="alarm-place">A3-2</span>.</p>
+            <p>Here you book wakeup calls for your place <span id="alarm-place">A3-2</span>.</p>
             <div id="alarm-existing" class="hidden">
               <p>
                 <span class="time">10:30</span>
-                <span class="remaining">8 tim 56 min</span>
-                <a href="#" class="remove">Ta bort</a>
+                <span class="remaining">8h 56m</span>
+                <a href="#" class="remove">Remove</a>
               </p>
               <p>
                 <span class="time">10:30</span>
-                <span class="remaining">8 tim 56 min</span>
-                <a href="#" class="remove">Ta bort</a>
+                <span class="remaining">8h 56m</span>
+                <a href="#" class="remove">Remove</a>
               </p>
             </div>
             <form id="alarm-form" action="/api/alarms">
@@ -78,13 +78,13 @@
                   <option value="00">00</option>
                   <option value="30">30</option>
                 </select>
-                <span id="alarm-remaining" class="remaining">6 tim 56 min</span>
+                <span id="alarm-remaining" class="remaining">6h 56m</span>
               </p>
               <p class="button-row">
-                <input type="button" id="alarm-change-place" value="Byt plats" />
+                <input type="button" id="alarm-change-place" value="Change place" />
                 <span class="continue-buttons">
-                  <input type="button" id="alarm-cancel" value="Avbryt">
-                  <input id="alarm-set" type="submit" value="Beställ" />
+                  <input type="button" id="alarm-cancel" value="Cancel">
+                  <input id="alarm-set" type="submit" value="Book" />
                 </span>
               </p>
             </form>
@@ -92,13 +92,13 @@
         </div>
     <div id="confirm-place-step" class="hidden">
       <div class="message">
-        <p>Du är nu bokad på plats <span id="confirm-place-place"></span>!</p>
+        <p>You are now sleeping at place <span id="confirm-place-place"></span>!</p>
       </div>
     </div>
     <div id="confirm-alarm-step" class="hidden">
       <div class="message">
-        <p>Vi kommer och väcker dig <span id="confirm-alarm-time"></span> på din plats <span id="confirm-alarm-place"></span>.</p>
-        <p class="big">Sov gott! :)</p>
+        <p>We will wake you at <span id="confirm-alarm-time"></span> at your place <span id="confirm-alarm-place"></span>.</p>
+        <p class="big">Sleep tight! :)</p>
       </div>
     </div>
     </div>

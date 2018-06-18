@@ -117,11 +117,11 @@ var AlarmController = new Class({
 		var delta = then.getTime()-new Date().getTime()
 		var hours = Math.floor(delta/(1000*60*60))
 		var minutes = Math.floor((delta % (1000*60*60))/(1000*60))
-		var string = "Om "
+		var string = "In "
 		if (hours > 0) {
-			string += hours + " tim "
+			string += hours + "h "
 		}
-		string += minutes + " min"
+		string += minutes + "m"
 		return string
 	},
 	

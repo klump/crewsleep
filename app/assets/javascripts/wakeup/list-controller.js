@@ -78,7 +78,7 @@ var ListController = new Class({
           itemHtml  = "<span class=\"place\">"+alarm.row_index+"-"+alarm.place_index+"</span> "+alarm.person_username
           itemHtml += "<span class=\"actions\">"
           itemHtml += "<a class=\"button poke-button\"><span class=\"extra\">Poke (</span>"+alarm.poked+"<span class=\"extra\">)</span></a> "
-          itemHtml += "<a class=\"button delete-button\"><span class=\"extra\">Ta bort</span> <span class=\"minimal\">x</span></a>"
+          itemHtml += "<a class=\"button delete-button\"><span class=\"extra\">Remove</span> <span class=\"minimal\">x</span></a>"
           itemHtml += "</span>"
 					var alarmItem = new Element("li")
           alarmItem.set("html", itemHtml)
@@ -92,7 +92,7 @@ var ListController = new Class({
 					}.bind(this))
 
 					alarmItem.getElement(".delete-button").addEvent("click", function() {
-            if (!confirm("Detta tar bort väckningen av "+alarm.person_username+".")) {
+            if (!confirm("This will remove the wakeup call for "+alarm.person_username+".")) {
               return
             }
             new Request({
