@@ -11,6 +11,9 @@ module Cco
     end
 
     def self.fetch_person(id_or_nick)
+      # We need a username or id to lookup something in the API
+      return nil if id_or_nil.nil? or id_or_nick.empty?
+
       # Get CCO credentials from config/cco.yml
       cco_config = YAML.load_file('config/cco.yml')
 
